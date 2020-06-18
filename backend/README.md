@@ -9,8 +9,8 @@
 ### RNF
 
 - [x] Utilizar typescript para desenvolver a api;
-- [] Utilizar PostgresSQL;
-- [] Utilizar TypeORM;
+- [x] Utilizar PostgresSQL;
+- [x] Utilizar TypeORM;
 - [x] Utilizar padronização de código;
 
 ## MEU CADASTRO
@@ -39,7 +39,7 @@ Cadastro de usuário na aplicação
 
 	```js
 		interface Preferences {
-      user_id: string;
+      person_id: string;
 			category: string;
 			content: string;
 		}
@@ -47,5 +47,6 @@ Cadastro de usuário na aplicação
 
 ### RN
 
-- [] Ao enviar a solicitção de o usuário recebe um SMS com um código de verificação;
-- [] Com o codígo em mãos o usuário prossegue no cadastro para criação da senha de acesso ao aplicativo;
+- [x] O usuário deve receber um SMS com um código para verificação de seu telefone;
+- [x] O usuário deve verificar seu telefone antes de concluir o cadastro;
+- [] Com o telefone verificado o usuário deve poder prosseguir com cadastro para criação da conta no aplicativo;
