@@ -3,8 +3,8 @@
 ### RF
 
 [x] Permitir que o usuário se cadastre ou seja cadastrado;
+[x] Permitir que o usuário seja autenticado na aplicação;
 [ ] Permitir que o usuário cadastre uma data importante referêciando uma pessoa(contato);
-[ ] Permitir que o usuário envie/aceite um convite para/de outro usuário;
 
 ### RNF
 
@@ -34,8 +34,8 @@ Cadastro de usuário na aplicação
 		}
 	```
 
-- [ ] Permitir que com o usuário cadastrado e logado ele possa cadastrar seus gostos pessoais;
-- [ ] Os gostos devem seguir a seguinte estrutura:
+- [x] Permitir que com o usuário cadastrado e logado ele possa cadastrar seus gostos pessoais;
+- [x] Os gostos devem seguir a seguinte estrutura:
 
 	```js
 		interface Preferences {
@@ -49,7 +49,7 @@ Cadastro de usuário na aplicação
 
 - [x] O usuário deve receber um SMS com um código para verificação de seu telefone;
 - [x] O usuário deve verificar seu telefone antes de concluir o cadastro;
-- [ ] Com o telefone verificado o usuário deve poder prosseguir com cadastro para criação da conta no aplicativo;
+- [x] Com o telefone verificado o usuário deve poder prosseguir com cadastro para criação da conta no aplicativo;
 
 ## SESSÕES NA APLICAÇÃO
 
@@ -63,7 +63,7 @@ Cadastro de usuário na aplicação
     }
   ```
 
-- [ ] Permitir que o usuário possa encerrar sua sessão na aplicação;
+- [x] Permitir que o usuário possa encerrar sua sessão na aplicação;
 
 ### RNF
 
@@ -83,4 +83,4 @@ Cadastro de usuário na aplicação
 
 - [x] O usuário só pode acessar a aplicação se estiver verificado;
 
-- [ ] Ao encerrar uma sessão o usuário deve ter o telefone "desverificado", para que na próxima sessão ele precise verificar novamente seu telefone;
+- [x] Ao encerrar uma sessão o usuário deve ter o telefone "desverificado", para que na próxima sessão ele precise verificar novamente seu telefone;
