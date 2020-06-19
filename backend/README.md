@@ -37,13 +37,13 @@ Cadastro de usuário na aplicação
 - [x] Permitir que com o usuário cadastrado e logado ele possa cadastrar seus gostos pessoais;
 - [x] Os gostos devem seguir a seguinte estrutura:
 
-	```js
-		interface Preferences {
-            person_id: string;
-			category: string;
-			content: string;
-		}
-	```
+  ```js
+  interface Preferences {
+    person_id: string;
+    category: string;
+    content: string;
+  }
+  ```
 
 ### RN
 
