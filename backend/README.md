@@ -2,9 +2,9 @@
 
 ### RF
 
-[x] Permitir que o usuário se cadastre ou seja cadastrado;
-[x] Permitir que o usuário seja autenticado na aplicação;
-[ ] Permitir que o usuário cadastre uma data importante referêciando uma pessoa(contato);
+- [x] Permitir que o usuário se cadastre ou seja cadastrado;
+- [x] Permitir que o usuário seja autenticado na aplicação;
+- [ ] Permitir que o usuário cadastre uma data importante referêciando uma pessoa(contato);
 
 ### RNF
 
@@ -39,7 +39,7 @@ Cadastro de usuário na aplicação
 
 	```js
 		interface Preferences {
-      person_id: string;
+            person_id: string;
 			category: string;
 			content: string;
 		}
