@@ -43,25 +43,25 @@ class CreateUserService {
       throw new AppError('Usuário já possui uma conta.');
     }
 
-    const phoneUser = await accountRepository.findOne({
+    const account = await accountRepository.findOne({
       where: {
         phone_number: phone,
       },
     });
 
-    if (!phoneUser) {
+    if (!account) {
       throw new AppError(
         'O número de telefone ainda não foi verificado, tente novamente.',
       );
     }
 
-    if (!phoneUser.has_verified) {
+    if (!account.has_verified) {
       throw new AppError(
         'O número de telefone ainda não foi verificado, tente novamente.',
       );
     }
 
-    if (phoneUser.user) {
+    if (account.user) {
       throw new AppError('Já existe uma conta com esse número de telefone.');
     }
 
@@ -79,11 +79,11 @@ class CreateUserService {
 
     await userRepository.save(user);
 
-    phoneUser.user = user;
+    account.user = user;
 
-    await accountRepository.save(phoneUser);
+    await accountRepository.save(account);
 
-    return phoneUser;
+    return account;
   }
 }
 
