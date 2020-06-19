@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
 
-import UserPhoneRepository from '../repositories/UserPhoneRespository';
+import UserPhoneRepository from '../repositories/AccountRepository';
 
 interface QueryProps {
   phone_number: string;

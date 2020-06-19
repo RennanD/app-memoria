@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
 import User from '../models/User';
-import UserPhone from '../models/UserPhone';
+import Account from '../models/Account';
 
 import AppError from '../errors/AppError';
 
@@ -29,9 +29,9 @@ class CreateUserService {
     zipcode,
     address,
     password,
-  }: Request): Promise<UserPhone> {
+  }: Request): Promise<Account> {
     const userRepository = getRepository(User);
-    const userPhoneRepository = getRepository(UserPhone);
+    const accountRepository = getRepository(Account);
 
     const hash_password = await hash(password, 8);
 
@@ -43,7 +43,7 @@ class CreateUserService {
       throw new AppError('Usuário já possui uma conta.');
     }
 
-    const phoneUser = await userPhoneRepository.findOne({
+    const phoneUser = await accountRepository.findOne({
       where: {
         phone_number: phone,
       },
@@ -81,7 +81,7 @@ class CreateUserService {
 
     phoneUser.user = user;
 
-    await userPhoneRepository.save(phoneUser);
+    await accountRepository.save(phoneUser);
 
     return phoneUser;
   }

@@ -3,7 +3,7 @@
 
 import { EntityRepository, Repository } from 'typeorm';
 
-import UserPhone from '../models/UserPhone';
+import Account from '../models/Account';
 import AppError from '../errors/AppError';
 
 interface Request {
@@ -15,8 +15,8 @@ interface Message {
   content: string;
 }
 
-@EntityRepository(UserPhone)
-class UserPhonesRepository extends Repository<UserPhone> {
+@EntityRepository(Account)
+class AccountRepository extends Repository<Account> {
   public async requestVerificationCode(phone_number: string): Promise<Message> {
     const verification_code = String(
       Math.floor(Math.random() * (9999 - 1000 + 1)) + 1000,
@@ -26,11 +26,11 @@ class UserPhonesRepository extends Repository<UserPhone> {
     const authToken = 'cacffeddcddb16da39a1f926891691e3';
     const client = require('twilio')(accountSid, authToken);
 
-    const findUserPhone = await this.findOne({
+    const findAccount = await this.findOne({
       where: { phone_number },
     });
 
-    if (findUserPhone?.has_verified) {
+    if (findAccount?.has_verified) {
       throw new AppError('Seu telefone já foi verificado.');
     }
 
@@ -40,9 +40,9 @@ class UserPhonesRepository extends Repository<UserPhone> {
       from: '+12023185056',
     });
 
-    if (findUserPhone) {
-      findUserPhone.verification_code = verification_code;
-      await this.save(findUserPhone);
+    if (findAccount) {
+      findAccount.verification_code = verification_code;
+      await this.save(findAccount);
 
       return {
         content: 'Código de verificação enviado com sucesso.',
@@ -65,21 +65,21 @@ class UserPhonesRepository extends Repository<UserPhone> {
     verification_code,
     phone_number,
   }: Request): Promise<void> {
-    const findUserPhone = await this.findOne({
+    const findAccount = await this.findOne({
       where: { phone_number },
     });
 
-    if (!findUserPhone) {
+    if (!findAccount) {
       throw new AppError('Esse telefone ainda não foi cadastrado.', 401);
     }
 
-    if (findUserPhone.verification_code !== verification_code) {
+    if (findAccount.verification_code !== verification_code) {
       throw new AppError('Código de verificação inválido!', 401);
     } else {
-      findUserPhone.has_verified = true;
-      await this.save(findUserPhone);
+      findAccount.has_verified = true;
+      await this.save(findAccount);
     }
   }
 }
 
-export default UserPhonesRepository;
+export default AccountRepository;
