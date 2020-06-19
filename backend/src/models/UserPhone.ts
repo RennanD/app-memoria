@@ -15,7 +15,7 @@ class UserPhone {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => User, user => user, { eager: true })
+  @OneToOne(() => User, user => user.id, { eager: true })
   @JoinColumn({ name: 'user_id' })
   user: User;
 

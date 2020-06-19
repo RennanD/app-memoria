@@ -27,13 +27,24 @@ Cadastro de usuário na aplicação
 			birthday: Date;
 			email: string;
 			cpf: string;
-			gender: 'male' | 'female';
+			gender: 'masculino' | 'feminino';
 			zipcode: string;
 			address: string;
 			role: 'user' | 'admin'
 		}
 	```
+- [] permitir que o usuário seja autenticado para uso do aplicativo, com os seguintes dados:
+  ```js
+    interface Request {
+      email: string;
+      password: string;
+    }
 
+    interface Session {
+      token: string;
+      user: User;
+    }
+  ```
 - [] Permitir que com o usuário cadastrado e logado ele possa cadastrar seus gostos pessoais;
 - [] Os gostos devem seguir a seguinte estrutura:
 
