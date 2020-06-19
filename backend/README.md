@@ -22,16 +22,16 @@ Cadastro de usuário na aplicação
 - [x] Permitir que o usuário se cadastre ou seja cadastrado com os seguintes campos:
 
 	```js
-		interface User {
-			name: string;
-			birthday: Date;
-			email: string;
-			cpf: string;
-			gender: 'masculino' | 'feminino';
-			zipcode: string;
-			address: string;
-			role: 'user' | 'admin'
-		}
+  interface User {
+    name: string;
+    birthday: Date;
+    email: string;
+    cpf: string;
+    gender: 'masculino' | 'feminino';
+    zipcode: string;
+    address: string;
+    role: 'user' | 'admin'
+  }
 	```
 
 - [x] Permitir que com o usuário cadastrado e logado ele possa cadastrar seus gostos pessoais;
