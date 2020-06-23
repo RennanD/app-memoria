@@ -57,10 +57,10 @@ Cadastro de usuário na aplicação
 
 - [x] permitir que o usuário seja autenticado para uso do aplicativo, com os seguintes dados:
   ```js
-    interface Request {
-      email: string;
-      password: string;
-    }
+  interface Request {
+    email: string;
+    password: string;
+  }
   ```
 
 - [x] Permitir que o usuário possa encerrar sua sessão na aplicação;
@@ -84,3 +84,52 @@ Cadastro de usuário na aplicação
 - [x] O usuário só pode acessar a aplicação se estiver verificado;
 
 - [x] Ao encerrar uma sessão o usuário deve ter o telefone "desverificado", para que na próxima sessão ele precise verificar novamente seu telefone;
+
+
+## CRUD DE DATAS
+
+Cadastro de datas importantes.
+
+### RF
+
+- [x] Adicionar um "contato" para ser relacionado à data que o usuário cadastrar;
+
+- [x] O "Contato" deve seguir o seguinte formato:
+  ```js
+  interface Contact {
+    id: string;
+    name: string;
+    phone_number: string;
+    avatar?: string;
+  }
+  ```
+
+- [ ] Cadastrar uma data importante, a data deve serguir a seguinte estrutura:
+  ```js
+  interface ImportantDate {
+    id: string;
+    contact_id: string;
+    user_id: string;
+    date: Date;
+    description: string;
+  }
+  ```
+
+- [ ] Listar Datas cadastradas por um usuário;
+
+- [ ] Listar datas de um contato específico;
+
+- [ ] Detalhar uma data específica;
+
+- [ ] Editar um contato;
+
+- [ ] Editar uma data;
+
+- [ ] Excuir um contato;
+
+- [ ] Excluir uma data;
+
+
+### RN
+
+- [ ] Ao criar uma data, a mesma deve ser relacionada a um contato cadastrado pelo usuário e possuir uma descrição de que data se trata aquele cadastro;

@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import ImportantDate from './ImportantDate';
 
 @Entity('users')
 class User {
@@ -37,6 +39,9 @@ class User {
 
   @Column()
   role: string;
+
+  @OneToMany(() => ImportantDate, date => date, { eager: true })
+  dates: ImportantDate[];
 
   @CreateDateColumn()
   created_at: Date;
