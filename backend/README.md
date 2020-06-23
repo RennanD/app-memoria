@@ -131,7 +131,7 @@ Cadastro de datas importantes.
   }
   ```
 
-- [x] Detalhar uma data específica, o data deve serguir o seguinte formato:
+- [x] Detalhar uma data específica, a data deve serguir o seguinte formato:
 
   ```js
   interface Date {
@@ -149,7 +149,21 @@ Cadastro de datas importantes.
   }
   ```
 
-- [ ] Listar datas de um contato específico;
+- [x] Listar datas de um contato específico, as datas devem seguir o seguinte formato:
+
+  ```js
+  interface Date {
+    id: string;
+    date: Date;
+    create_at: Date;
+    updated_at: Date;
+    contact: {
+      id: string;
+      name: string;
+      avatar?: string;
+    };
+  }
+  ```
 
 - [ ] Editar um contato;
 
