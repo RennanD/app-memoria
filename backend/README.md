@@ -150,7 +150,7 @@ Cadastro de datas importantes.
   }
   ```
 
-- [xgit a] Listar datas de um contato específico, as datas devem seguir o seguinte formato:
+- [x] Listar datas de um contato específico, as datas devem seguir o seguinte formato:
 
   ```js
   interface Date {
