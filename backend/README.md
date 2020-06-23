@@ -104,7 +104,7 @@ Cadastro de datas importantes.
   }
   ```
 
-- [ ] Cadastrar uma data importante, a data deve serguir a seguinte estrutura:
+- [x] Cadastrar uma data importante, a data deve serguir a seguinte estrutura:
   ```js
   interface ImportantDate {
     id: string;
@@ -115,11 +115,41 @@ Cadastro de datas importantes.
   }
   ```
 
-- [ ] Listar Datas cadastradas por um usuário;
+- [x] Listar Datas cadastradas por um usuário, as datas devem seguir o seguinte formato:
+
+  ```js
+  interface Date {
+    id: string;
+    date: Date;
+    create_at: Date;
+    updated_at: Date;
+    contact: {
+      id: string;
+      name: string;
+      avatar?: string;
+    };
+  }
+  ```
+
+- [x] Detalhar uma data específica, o data deve serguir o seguinte formato:
+
+  ```js
+  interface Date {
+    id: string;
+    date: Date;
+    description: string;
+    create_at: Date;
+    updated_at: Date;
+    contact: {
+      id: string;
+      phone_number: string;
+      name: string;
+      avatar?: string;
+    };
+  }
+  ```
 
 - [ ] Listar datas de um contato específico;
-
-- [ ] Detalhar uma data específica;
 
 - [ ] Editar um contato;
 
@@ -132,4 +162,4 @@ Cadastro de datas importantes.
 
 ### RN
 
-- [ ] Ao criar uma data, a mesma deve ser relacionada a um contato cadastrado pelo usuário e possuir uma descrição de que data se trata aquele cadastro;
+- [x] Ao criar uma data, a mesma deve ser relacionada a um contato cadastrado pelo usuário e possuir uma descrição de que data se trata aquele cadastro;
