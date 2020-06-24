@@ -170,7 +170,7 @@ Cadastro de datas importantes.
 
 - [x] Editar uma data;
 
-- [ ] Excluir um contato;
+- [x] Excluir um contato;
 
 - [ ] Excluir uma data;
 

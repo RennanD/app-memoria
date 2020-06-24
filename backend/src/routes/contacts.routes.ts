@@ -26,9 +26,12 @@ contactsRouter.get('/:contact_id', async (request, response) => {
 contactsRouter.post('/', async (request, response) => {
   const createContact = new CreateContactService();
 
+  const user_id = request.user.id;
+
   const { phone_number, name, ...rest } = request.body;
 
   const contact = await createContact.execute({
+    user_id,
     name,
     phone_number,
     ...rest,
