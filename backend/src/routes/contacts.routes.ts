@@ -4,12 +4,25 @@ import CreateContactService from '../services/CreateContactService';
 import ListContactDatesService from '../services/ListContactDatesService';
 import EditContactService from '../services/EditContactService';
 import DeleteContactService from '../services/DeleteContactService';
+import ListContactUserService from '../services/ListContactUserService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticate';
 
 const contactsRouter = Router();
 
 contactsRouter.use(ensureAuthenticated);
+
+contactsRouter.get('/', async (request, response) => {
+  const listContacts = new ListContactUserService();
+
+  const user_id = request.user.id;
+
+  const contacts = await listContacts.execute({
+    user_id,
+  });
+
+  return response.json(contacts);
+});
 
 contactsRouter.get('/:contact_id', async (request, response) => {
   const listDates = new ListContactDatesService();
@@ -58,9 +71,12 @@ contactsRouter.put('/:contact_id', async (request, response) => {
 contactsRouter.delete('/:contact_id', async (request, response) => {
   const contact_id = request.params.contact_id as string;
 
+  const user_id = request.user.id;
+
   const deleteContact = new DeleteContactService();
 
   await deleteContact.execute({
+    user_id,
     contact_id,
   });
 

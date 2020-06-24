@@ -7,10 +7,11 @@ import AppError from '../errors/AppError';
 
 interface Request {
   contact_id: string;
+  user_id: string;
 }
 
 class DeleteContactService {
-  public async execute({ contact_id }: Request): Promise<void> {
+  public async execute({ contact_id, user_id }: Request): Promise<void> {
     const contactRepository = getRepository(Contact);
     const dateRepository = getRepository(ImportantDate);
 
@@ -22,6 +23,10 @@ class DeleteContactService {
 
     if (!checkContact) {
       throw new AppError('Contato não encontrado.');
+    }
+
+    if (checkContact.user_id !== user_id) {
+      throw new AppError('Você não teu autorização para isso.', 401);
     }
 
     const dates = await dateRepository.find({
