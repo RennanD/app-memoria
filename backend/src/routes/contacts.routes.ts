@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import CreateContactService from '../services/CreateContactService';
 import ListContactDatesService from '../services/ListContactDatesService';
+import EditContactService from '../services/EditContactService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticate';
 
@@ -30,6 +31,21 @@ contactsRouter.post('/', async (request, response) => {
     name,
     phone_number,
     ...rest,
+  });
+
+  return response.json(contact);
+});
+
+contactsRouter.put('/:contact_id', async (request, response) => {
+  const contact_id = request.params.contact_id as string;
+
+  const editContact = new EditContactService();
+
+  const data = request.body;
+
+  const contact = await editContact.execute({
+    contact_id,
+    ...data,
   });
 
   return response.json(contact);

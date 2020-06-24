@@ -166,7 +166,7 @@ Cadastro de datas importantes.
   }
   ```
 
-- [ ] Editar um contato;
+- [x] Editar um contato;
 
 - [ ] Editar uma data;
 
