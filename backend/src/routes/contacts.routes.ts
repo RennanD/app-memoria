@@ -3,6 +3,7 @@ import { Router } from 'express';
 import CreateContactService from '../services/CreateContactService';
 import ListContactDatesService from '../services/ListContactDatesService';
 import EditContactService from '../services/EditContactService';
+import DeleteContactService from '../services/DeleteContactService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticate';
 
@@ -49,6 +50,18 @@ contactsRouter.put('/:contact_id', async (request, response) => {
   });
 
   return response.json(contact);
+});
+
+contactsRouter.delete('/:contact_id', async (request, response) => {
+  const contact_id = request.params.contact_id as string;
+
+  const deleteContact = new DeleteContactService();
+
+  await deleteContact.execute({
+    contact_id,
+  });
+
+  return response.send();
 });
 
 export default contactsRouter;

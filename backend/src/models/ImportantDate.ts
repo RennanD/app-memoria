@@ -40,6 +40,9 @@ class ImportantDate {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Column('time with time zone')
+  deleted_at: Date;
 }
 
 export default ImportantDate;
