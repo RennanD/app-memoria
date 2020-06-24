@@ -168,9 +168,9 @@ Cadastro de datas importantes.
 
 - [x] Editar um contato;
 
-- [ ] Editar uma data;
+- [x] Editar uma data;
 
-- [ ] Excuir um contato;
+- [ ] Excluir um contato;
 
 - [ ] Excluir uma data;
 

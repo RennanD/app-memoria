@@ -3,6 +3,7 @@ import { Router } from 'express';
 import CreateImportantDateService from '../services/CreateImportantDateService';
 import ListUserDatesService from '../services/ListUserDatesService';
 import ShowOnlyDateService from '../services/ShowOnlyDateService';
+import EditImportantDateService from '../services/EditImportantDateService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticate';
 
@@ -52,6 +53,21 @@ datesRouter.post('/', async (request, response) => {
   });
 
   return response.json(importantDate);
+});
+
+datesRouter.put('/:date_id', async (request, response) => {
+  const date_id = request.params.date_id as string;
+
+  const editDate = new EditImportantDateService();
+
+  const data = request.body;
+
+  const date = await editDate.execute({
+    date_id,
+    ...data,
+  });
+
+  return response.json(date);
 });
 
 export default datesRouter;

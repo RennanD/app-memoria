@@ -8,7 +8,7 @@ import AppError from '../errors/AppError';
 interface Request {
   contact_id: string;
   user_id: string;
-  date: string;
+  date: Date;
   description: string;
 }
 
