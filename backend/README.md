@@ -5,7 +5,7 @@
 - [x] Permitir que o usuário se cadastre ou seja cadastrado;
 - [x] Permitir que o usuário seja autenticado na aplicação;
 - [x] Permitir que o usuário cadastre uma data importante referêciando uma pessoa(contato);
-- [ ] CRUD de datas importantes e contatos;
+- [x] CRUD de datas importantes e contatos;
 
 ### RNF
 
