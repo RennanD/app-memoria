@@ -172,7 +172,7 @@ Cadastro de datas importantes.
 
 - [x] Excluir um contato;
 
-- [ ] Excluir uma data;
+- [x] Excluir uma data;
 
 
 ### RN

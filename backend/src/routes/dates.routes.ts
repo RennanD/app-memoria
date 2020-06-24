@@ -4,6 +4,7 @@ import CreateImportantDateService from '../services/CreateImportantDateService';
 import ListUserDatesService from '../services/ListUserDatesService';
 import ShowOnlyDateService from '../services/ShowOnlyDateService';
 import EditImportantDateService from '../services/EditImportantDateService';
+import DeleteImportantDateService from '../services/DeleteImportantDateService';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticate';
 
@@ -68,6 +69,20 @@ datesRouter.put('/:date_id', async (request, response) => {
   });
 
   return response.json(date);
+});
+
+datesRouter.delete('/:date_id', async (request, response) => {
+  const date_id = request.params.date_id as string;
+  const user_id = request.user.id;
+
+  const deleteDate = new DeleteImportantDateService();
+
+  await deleteDate.execute({
+    user_id,
+    date_id,
+  });
+
+  return response.send();
 });
 
 export default datesRouter;

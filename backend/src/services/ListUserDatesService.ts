@@ -25,6 +25,7 @@ class ListUserDatesService {
     const dates = await dateRepository.find({
       where: {
         user_id,
+        deleted_at: null,
       },
     });
 

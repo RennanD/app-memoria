@@ -26,6 +26,7 @@ class ListContactDatesService {
     const dates = await dateRepository.find({
       where: {
         contact_id,
+        deleted_at: null,
       },
     });
 

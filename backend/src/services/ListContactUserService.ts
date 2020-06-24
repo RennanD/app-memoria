@@ -11,7 +11,10 @@ class ListContactUserService {
     const contactRepository = getRepository(Contact);
 
     const contacts = await contactRepository.find({
-      where: { user_id },
+      where: {
+        user_id,
+        deleted_at: null,
+      },
     });
 
     return contacts;
