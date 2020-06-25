@@ -1,7 +1,8 @@
 import { getRepository } from 'typeorm';
 
 import Contact from '../models/Contact';
-import AppError from '../errors/AppError';
+
+import AppError from '../../../errors/AppError';
 
 interface Request {
   contact_id: string;

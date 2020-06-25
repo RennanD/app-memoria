@@ -4,7 +4,7 @@
 import { EntityRepository, Repository } from 'typeorm';
 
 import Account from '../models/Account';
-import AppError from '../errors/AppError';
+import AppError from '../../../errors/AppError';
 
 interface Request {
   verification_code: string;

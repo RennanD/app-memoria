@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 
 import Account from '../models/Account';
 
-import AppError from '../errors/AppError';
+import AppError from '../../../errors/AppError';
 
 class LogOutUserService {
   public async execute(user_id: string): Promise<void> {

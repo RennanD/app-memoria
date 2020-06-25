@@ -6,7 +6,7 @@ import ShowOnlyDateService from '../services/ShowOnlyDateService';
 import EditImportantDateService from '../services/EditImportantDateService';
 import DeleteImportantDateService from '../services/DeleteImportantDateService';
 
-import ensureAuthenticated from '../middlewares/ensureAuthenticate';
+import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 
 const datesRouter = Router();
 

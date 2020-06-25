@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 import Preferences from '../models/Preferences';
 import User from '../models/User';
 
-import AppError from '../errors/AppError';
+import AppError from '../../../errors/AppError';
 
 interface RequestDTO {
   category: string;

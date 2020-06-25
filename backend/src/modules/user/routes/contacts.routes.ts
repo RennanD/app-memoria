@@ -6,7 +6,7 @@ import EditContactService from '../services/EditContactService';
 import DeleteContactService from '../services/DeleteContactService';
 import ListContactUserService from '../services/ListContactUserService';
 
-import ensureAuthenticated from '../middlewares/ensureAuthenticate';
+import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 
 const contactsRouter = Router();
 

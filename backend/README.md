@@ -6,6 +6,8 @@
 - [x] Permitir que o usuário seja autenticado na aplicação;
 - [x] Permitir que o usuário cadastre uma data importante referêciando uma pessoa(contato);
 - [x] CRUD de datas importantes e contatos;
+- [ ]  Adicionar nivel de relacionamento (Pai, mãe e etc).
+  Adicionar lembrete da datas (periodo escolhido pelo usuário);
 
 ### RNF
 
@@ -13,6 +15,7 @@
 - [x] Utilizar PostgresSQL;
 - [x] Utilizar TypeORM;
 - [x] Utilizar padronização de código;
+
 
 ## MEU CADASTRO
 
@@ -35,16 +38,6 @@ Cadastro de usuário na aplicação
   }
 	```
 
-- [x] Permitir que com o usuário cadastrado e logado ele possa cadastrar seus gostos pessoais;
-- [x] Os gostos devem seguir a seguinte estrutura:
-
-  ```js
-  interface Preferences {
-    person_id: string;
-    category: string;
-    content: string;
-  }
-  ```
 
 ### RN
 
@@ -85,6 +78,24 @@ Cadastro de usuário na aplicação
 - [x] O usuário só pode acessar a aplicação se estiver verificado;
 
 - [x] Ao encerrar uma sessão o usuário deve ter o telefone "desverificado", para que na próxima sessão ele precise verificar novamente seu telefone;
+
+## PREFERÊNCIAS
+
+### RF
+
+- [x] Os gostos devem seguir a seguinte estrutura:
+
+  ```js
+  interface Preferences {
+    person_id: string;
+    category: string;
+    content: string;
+  }
+  ```
+
+### RN
+
+- [ ] Somente o admin pode criar preferências;
 
 
 ## CRUD DE DATAS

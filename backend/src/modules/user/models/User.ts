@@ -4,11 +4,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToMany,
+  // OneToMany,
 } from 'typeorm';
 
-import ImportantDate from './ImportantDate';
-import Contact from './Contact';
+// import ImportantDate from './ImportantDate';
+// import Contact from './Contact';
 
 @Entity('users')
 class User {
@@ -42,11 +42,11 @@ class User {
   @Column()
   role: string;
 
-  @OneToMany(() => ImportantDate, date => date, { eager: true })
-  dates: ImportantDate[];
+  // @OneToMany(() => ImportantDate, date => date, { eager: true })
+  // dates: ImportantDate[];
 
-  @OneToMany(() => Contact, contact => contact, { eager: true })
-  contacts: Contact[];
+  // @OneToMany(() => Contact, contact => contact, { eager: true })
+  // contacts: Contact[];
 
   @CreateDateColumn()
   created_at: Date;
