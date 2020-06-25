@@ -1,4 +1,6 @@
-# API - APP MEMÓRIA
+# API (USER) - APP MEMÓRIA
+
+Funcionalidades para os usuários comuns do sistema.
 
 ### RF
 
@@ -79,23 +81,31 @@ Cadastro de usuário na aplicação
 
 - [x] Ao encerrar uma sessão o usuário deve ter o telefone "desverificado", para que na próxima sessão ele precise verificar novamente seu telefone;
 
-## PREFERÊNCIAS
+
+## CADASTRO DE PREFERÊNCIAS DO USUÁRIO OU CONTATO
 
 ### RF
 
-- [x] Os gostos devem seguir a seguinte estrutura:
+- [ ] As categorias devem seguir a seguinte estrutura:
 
   ```js
-  interface Preferences {
+  interface Category {
+    id: string;
     person_id: string;
-    category: string;
-    content: string;
+    category_id: string;
+    subcategories_title: string[];
   }
   ```
 
-### RN
+### RNF
 
 - [ ] Somente o admin pode criar preferências;
+
+### RN
+
+- [ ] O ID do `User`/`Contact` que selecionou aquela categoria deve relacionado a preferencia, assim como o ID da `Category`;
+
+- [ ] As `subcategorias` escolhidas devem existir dentro de `Category`, e devem ser adicionados à `subcategories_title`;
 
 
 ## CRUD DE DATAS
@@ -117,6 +127,7 @@ Cadastro de datas importantes.
   ```
 
 - [x] Cadastrar uma data importante, a data deve serguir a seguinte estrutura:
+
   ```js
   interface ImportantDate {
     id: string;
@@ -189,3 +200,80 @@ Cadastro de datas importantes.
 ### RN
 
 - [x] Ao criar uma data, a mesma deve ser relacionada a um contato cadastrado pelo usuário e possuir uma descrição de que data se trata aquele cadastro;
+
+
+# API (ADMIN) - APP MEMÓRIA
+
+Funcionalidades para o Admin do sistema.
+
+### RN
+
+- [ ] Somente o ADMIN pode realizar as seguintes operações
+
+## CADASTRO DE PREFERÊNCIAS (Catgorias e subcategorias)
+
+Cadastrar novas preferências no sistema.
+
+### RF
+
+- [ ] As categorias devem seguir a seguinte estrutura:
+
+  ```js
+  interface Category {
+    id: string;
+    category_name: string;
+    subcategories: string[];
+  }
+  ```
+
+### RNF
+
+- [ ] Usar mongodb para estrutura de preferências.
+
+
+
+## CRUD DE GRAU DE RELACIONAMENTO
+
+Criar grau de relacionamento para os contatos e datas do usuário
+
+### RF
+
+- [ ] Cadastrar tipos de relacionamento, o grau de relacionamento deve seguir a seguinte estrutura:
+  ```js
+  interface Relation {
+    id: string;
+    relation_type: string;
+  }
+  ```
+
+- [ ] Listar graus de relacionamento;
+
+## CRUD DE DATAS GENÉRICAS
+
+Criar datas não seram específicas para um usuário.
+
+### RF
+
+- [ ] Cadastrar uma data genérica, a data deve serguir a seguinte estrutura:
+
+  ```js
+  interface ImportantDate {
+    id: string;
+    date: Date;
+    description: string;
+  }
+  ```
+
+- [ ] Listar Datas genérias, as datas devem seguir o seguinte formato:
+
+  ```js
+  interface Date {
+    id: string;
+    date: Date;
+    create_at: Date;
+    updated_at: Date;
+  }
+  ```
+### RN
+
+- [ ] Deve ser possível o Administrador criar datas que seram visíveis para todos os usuários da aplicação;
