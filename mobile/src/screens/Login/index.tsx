@@ -1,22 +1,37 @@
 import React, { useRef, useCallback } from 'react';
 import { TextInput } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
 
-import { Container, LogoImage, Input } from './styles';
+import {
+  Container,
+  LogoImage,
+  Input,
+  LinkTextContainer,
+  HelpText,
+  LinkButton,
+  LinkButtonText,
+} from './styles';
 
 import Button from '../../components/Button';
 
 import { logo } from '../../assets';
 
 const Login: React.FC = () => {
+  const { navigate } = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordRef = useRef<TextInput>(null);
 
   const handleSubmit = useCallback((data: any) => {
     console.log(data);
   }, []);
+
+  const handleNavigate = useCallback(() => {
+    navigate('Register');
+  }, [navigate]);
 
   return (
     <Container>
@@ -28,7 +43,7 @@ const Login: React.FC = () => {
           autoCapitalize="none"
           keyboardType="email-address"
           icon="account"
-          placeholder="E-mail"
+          placeholder="Nome completo"
           name="email"
           returnKeyType="next"
           onSubmitEditing={() => passwordRef.current?.focus()}
@@ -46,6 +61,13 @@ const Login: React.FC = () => {
 
         <Button onPress={() => formRef.current?.submitForm()}>Login</Button>
       </Form>
+
+      <LinkTextContainer>
+        <HelpText>Não tem uma conta?</HelpText>
+        <LinkButton onPress={handleNavigate}>
+          <LinkButtonText>Inscreva-se.</LinkButtonText>
+        </LinkButton>
+      </LinkTextContainer>
     </Container>
   );
 };

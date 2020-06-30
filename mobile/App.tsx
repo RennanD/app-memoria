@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Login from './src/screens/Login';
+import Index from './src';
 
-const App: React.FC = () => <Login />;
+const App: React.FC = () => <Index />;
 
 export default App;

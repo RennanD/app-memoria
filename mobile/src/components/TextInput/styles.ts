@@ -15,7 +15,7 @@ export const Container = styled.View<ContainerProps>`
   flex-direction: row;
   margin-bottom: 15px;
   border-radius: 20px;
-  border: 2px solid #fff
+  border: 1.5px solid #fff
     ${props =>
       props.isFocused &&
       css`

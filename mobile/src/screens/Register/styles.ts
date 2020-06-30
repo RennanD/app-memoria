@@ -2,21 +2,24 @@ import styled from 'styled-components/native';
 
 import TextInput from '../../components/TextInput';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    padding: 20,
+    justifyContent: 'center',
+  },
+  showsVerticalScrollIndicator: false,
+})`
   flex: 1;
   background: #65c4b0;
-  justify-content: center;
-  padding: 20px;
 `;
 
-export const LogoImage = styled.Image`
-  height: 120px;
-  width: 120px;
+export const ProfileImage = styled.Image`
+  height: 100px;
+  width: 100px;
+  border-radius: 50px;
   align-self: center;
-  margin-bottom: 30px;
+  margin: 10px 0;
 `;
-
-export const FormContainer = styled.View``;
 
 export const Input = styled(TextInput)``;
 
