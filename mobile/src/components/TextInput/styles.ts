@@ -1,9 +1,10 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 interface ContainerProps {
   error: boolean;
+  isFocused: boolean;
 }
 
 export const Container = styled.View<ContainerProps>`
@@ -14,6 +15,12 @@ export const Container = styled.View<ContainerProps>`
   flex-direction: row;
   margin-bottom: 15px;
   border-radius: 20px;
+  border: 2px solid #fff
+    ${props =>
+      props.isFocused &&
+      css`
+        border-color: #25a182;
+      `};
 `;
 
 export const Icon = styled(MaterialCommunityIcons)`
