@@ -17,6 +17,7 @@ import {
 } from './styles';
 
 import Button from '../../components/Button';
+import PickerInput from '../../components/PickerInput';
 
 const Register: React.FC = () => {
   const { navigate } = useNavigation();
@@ -96,14 +97,7 @@ const Register: React.FC = () => {
           onSubmitEditing={() => genderRef.current?.focus()}
         />
 
-        <Input
-          ref={genderRef}
-          icon="gender"
-          placeholder="Gênero"
-          name="password"
-          returnKeyType="next"
-          onSubmitEditing={() => addressRef.current?.focus()}
-        />
+        <PickerInput name="gender" />
 
         <Input
           ref={addressRef}
@@ -114,7 +108,7 @@ const Register: React.FC = () => {
           onSubmitEditing={() => formRef.current?.submitForm()}
         />
 
-        <Button onPress={() => formRef.current?.submitForm()}>Login</Button>
+        <Button onPress={() => formRef.current?.submitForm()}>Cadastrar</Button>
       </Form>
 
       <LinkTextContainer>

@@ -2,6 +2,8 @@ import styled from 'styled-components/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { TextInputMask } from 'react-native-masked-text';
+
 export const Container = styled.View`
   flex: 1;
   background: #65c4b0;
@@ -27,11 +29,14 @@ export const ContainerInput = styled.View`
 
 export const Icon = styled(MaterialCommunityIcons)``;
 
-export const Input = styled.TextInput`
+export const Input = styled(TextInputMask)`
   flex: 1;
+  color: #333;
+  font-size: 16px;
 `;
 
 export const Prefix = styled.Text`
   color: #333;
   margin: 0 5px;
+  font-size: 16px;
 `;
