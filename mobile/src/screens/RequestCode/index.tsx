@@ -11,11 +11,11 @@ import {
   Prefix,
 } from './styles';
 
-import Button from '../../../components/Button';
+import Button from '../../components/Button';
 
-import { logo } from '../../../assets';
+import { logo } from '../../assets';
 
-import { useVerification } from '../../../hooks';
+import { useVerification } from '../../hooks';
 
 const RequestCode: React.FC = () => {
   const { requestCode } = useVerification();

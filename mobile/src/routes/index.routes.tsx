@@ -1,7 +1,20 @@
 import React from 'react';
 
-import AuthRoutes from './auth.routes';
+import { useVerification, useAuth } from '../hooks';
 
-const Routes: React.FC = () => <AuthRoutes />;
+import AuthRoutes from './auth.routes';
+import VerificationRoutes from './verification.routes';
+import AppRoutes from './app.routes';
+
+const Routes: React.FC = () => {
+  const { verified } = useVerification();
+  const { account } = useAuth();
+
+  if (account) {
+    return <AppRoutes />;
+  }
+
+  return verified ? <AuthRoutes /> : <VerificationRoutes />;
+};
 
 export default Routes;

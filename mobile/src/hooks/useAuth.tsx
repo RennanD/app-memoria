@@ -11,6 +11,8 @@ import { Alert } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { useVerification } from '.';
+
 import api from '../services/api';
 
 interface SingInCredencials {
@@ -18,9 +20,15 @@ interface SingInCredencials {
   password: string;
 }
 
+interface Account {
+  user: {
+    id: string;
+  };
+}
+
 interface AuthState {
   token: string;
-  account: object;
+  account: Account;
 }
 
 interface AuthContextData {
@@ -33,6 +41,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>({} as AuthState);
+
+  const { cancelVerify } = useVerification();
 
   useEffect(() => {
     async function loadAccount(): Promise<void> {
@@ -50,13 +60,10 @@ export const AuthProvider: React.FC = ({ children }) => {
 
   const signIn = useCallback(async ({ email, password }) => {
     try {
-      const response = await api.post<{ account: object; token: string }>(
-        '/sessions',
-        {
-          email,
-          password,
-        },
-      );
+      const response = await api.post('/sessions', {
+        email,
+        password,
+      });
 
       const { account, token } = response.data;
 
@@ -72,11 +79,17 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
+    const { account } = data;
+
+    await api.delete(`/sessions/${account.user.id}`);
+
     await AsyncStorage.removeItem('@memoria:token');
     await AsyncStorage.removeItem('@memoria:account');
 
+    cancelVerify();
+
     setData({} as AuthState);
-  }, []);
+  }, [cancelVerify, data]);
 
   return (
     <AuthContext.Provider value={{ account: data.account, signIn, signOut }}>

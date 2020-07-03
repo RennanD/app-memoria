@@ -23,7 +23,7 @@ class AccountRepository extends Repository<Account> {
     );
 
     const accountSid = 'AC7ae57582e89ca0b8a6b1f4de0a2439b6';
-    const authToken = 'f7dae5cf1d8d45238bea6f12a8e41ed5';
+    const authToken = '943b6a66dbaffed957376d56f76c87bb';
     const client = require('twilio')(accountSid, authToken);
 
     const findAccount = await this.findOne({

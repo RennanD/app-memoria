@@ -1,10 +1,12 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import { TextInput } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
+
+import { useAuth } from '../../hooks';
 
 import {
   Container,
@@ -20,14 +22,35 @@ import Button from '../../components/Button';
 
 import { logo } from '../../assets';
 
+interface SingInCredencials {
+  email: string;
+  password: string;
+}
+
 const Login: React.FC = () => {
   const { navigate } = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordRef = useRef<TextInput>(null);
 
-  const handleSubmit = useCallback((data: any) => {
-    console.log(data);
-  }, []);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { signIn } = useAuth();
+
+  const handleSubmit = useCallback(
+    (data: SingInCredencials) => {
+      const { email, password } = data;
+
+      setLoading(true);
+
+      signIn({
+        email,
+        password,
+      });
+
+      setLoading(false);
+    },
+    [signIn],
+  );
 
   const handleNavigate = useCallback(() => {
     navigate('Register');
@@ -59,7 +82,9 @@ const Login: React.FC = () => {
           onSubmitEditing={() => formRef.current?.submitForm()}
         />
 
-        <Button onPress={() => formRef.current?.submitForm()}>Login</Button>
+        <Button loading={loading} onPress={() => formRef.current?.submitForm()}>
+          Login
+        </Button>
       </Form>
 
       <LinkTextContainer>

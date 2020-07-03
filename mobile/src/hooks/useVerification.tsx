@@ -1,12 +1,22 @@
-import React, { createContext, useCallback, useState, useContext } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { Alert } from 'react-native';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 import api from '../services/api';
 
 interface VerificationContextData {
   phone_number: string;
+  verified: string;
   requestCode(phone_number: string): Promise<void>;
   verifyCode(phone_number: string, code: string): Promise<void>;
+  cancelVerify(): Promise<void>;
 }
 
 const VerificationContext = createContext<VerificationContextData>(
@@ -15,6 +25,19 @@ const VerificationContext = createContext<VerificationContextData>(
 
 export const VerifcationProvider: React.FC = ({ children }) => {
   const [phone, setPhone] = useState<string>('');
+  const [verified, setVerified] = useState<string>('');
+
+  useEffect(() => {
+    async function loadPhone(): Promise<void> {
+      const verified_phone = await AsyncStorage.getItem('@memoria:verified');
+
+      if (verified_phone) {
+        setVerified(verified_phone);
+      }
+    }
+
+    loadPhone();
+  }, []);
 
   const requestCode = useCallback(async phone_number => {
     try {
@@ -25,8 +48,8 @@ export const VerifcationProvider: React.FC = ({ children }) => {
       setPhone(phone_number);
 
       Alert.alert('Sucesso', response.data.content);
-    } catch (err) {
-      Alert.alert('Error', 'Tente novamente');
+    } catch ({ response }) {
+      throw new Error(response.data.message);
     }
   }, []);
 
@@ -39,15 +62,30 @@ export const VerifcationProvider: React.FC = ({ children }) => {
         },
       });
 
+      setVerified('true');
+
+      AsyncStorage.setItem('@memoria:verified', 'true');
+
       Alert.alert('Sucesso', response.data.content);
     } catch ({ response }) {
-      Alert.alert('Erro', response.data.message);
+      throw new Error(response.data.message);
     }
+  }, []);
+
+  const cancelVerify = useCallback(async () => {
+    setVerified('');
+    await AsyncStorage.removeItem('@memoria:verified');
   }, []);
 
   return (
     <VerificationContext.Provider
-      value={{ phone_number: phone, requestCode, verifyCode }}
+      value={{
+        phone_number: phone,
+        requestCode,
+        verifyCode,
+        verified,
+        cancelVerify,
+      }}
     >
       {children}
     </VerificationContext.Provider>

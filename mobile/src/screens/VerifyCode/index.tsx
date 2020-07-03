@@ -11,11 +11,11 @@ import {
   CodeInput,
 } from './styles';
 
-import { cellphone } from '../../../assets';
+import { cellphone } from '../../assets';
 
-import Button from '../../../components/Button';
+import Button from '../../components/Button';
 
-import { useVerification } from '../../../hooks';
+import { useVerification } from '../../hooks';
 
 const VerifyCode: React.FC = () => {
   const [pressed, setPressed] = useState<boolean>(false);
@@ -36,13 +36,12 @@ const VerifyCode: React.FC = () => {
   const handleVerifyCode = useCallback(async () => {
     setLoading(true);
 
-    console.log(code);
-
     try {
       await verifyCode(phone_number, code);
       setLoading(false);
       navigate('Login');
     } catch (error) {
+      console.log(error);
       setLoading(false);
     }
   }, [code, navigate, phone_number, verifyCode]);

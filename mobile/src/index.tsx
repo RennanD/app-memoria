@@ -5,14 +5,14 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import Routes from './routes/index.routes';
 
-import { VerifcationProvider } from './hooks/useVerification';
+import { AppProvider } from './hooks';
 
 const Index: React.FC = () => (
   <NavigationContainer>
     <StatusBar barStyle="light-content" backgroundColor="#65C4B0" />
-    <VerifcationProvider>
+    <AppProvider>
       <Routes />
-    </VerifcationProvider>
+    </AppProvider>
   </NavigationContainer>
 );
 
