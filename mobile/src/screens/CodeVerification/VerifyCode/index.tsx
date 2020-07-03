@@ -1,5 +1,7 @@
 import React, { useState, useCallback } from 'react';
 
+import { useNavigation } from '@react-navigation/native';
+
 import {
   Container,
   IconImage,
@@ -13,8 +15,15 @@ import { cellphone } from '../../../assets';
 
 import Button from '../../../components/Button';
 
+import { useVerification } from '../../../hooks';
+
 const VerifyCode: React.FC = () => {
   const [pressed, setPressed] = useState<boolean>(false);
+  const [code, setCode] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const { verifyCode, phone_number } = useVerification();
+  const { navigate } = useNavigation();
 
   const pressButton = useCallback(() => {
     setPressed(true);
@@ -23,6 +32,20 @@ const VerifyCode: React.FC = () => {
       setPressed(false);
     }, 200);
   }, [setPressed]);
+
+  const handleVerifyCode = useCallback(async () => {
+    setLoading(true);
+
+    console.log(code);
+
+    try {
+      await verifyCode(phone_number, code);
+      setLoading(false);
+      navigate('Login');
+    } catch (error) {
+      setLoading(false);
+    }
+  }, [code, navigate, phone_number, verifyCode]);
 
   return (
     <Container>
@@ -42,9 +65,13 @@ const VerifyCode: React.FC = () => {
           keyboardType="number-pad"
           placeholder="XXXX"
           placeholderTextColor="#eee"
+          value={code}
+          onChangeText={setCode}
         />
 
-        <Button>Confimar código</Button>
+        <Button loading={loading} onPress={handleVerifyCode}>
+          Confimar código
+        </Button>
       </Content>
     </Container>
   );

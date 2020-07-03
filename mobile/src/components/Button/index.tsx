@@ -1,12 +1,20 @@
 import React from 'react';
 
-import { TouchableOpacityProps } from 'react-native';
+import { TouchableOpacityProps, ActivityIndicator } from 'react-native';
 
 import { Container, ButtonText } from './styles';
 
-const Button: React.FC<TouchableOpacityProps> = ({ children, ...rest }) => (
+interface ButtonProps extends TouchableOpacityProps {
+  loading: boolean;
+}
+
+const Button: React.FC<ButtonProps> = ({ loading, children, ...rest }) => (
   <Container {...rest}>
-    <ButtonText>{children}</ButtonText>
+    {loading ? (
+      <ActivityIndicator size={30} color="#fff" />
+    ) : (
+      <ButtonText>{children}</ButtonText>
+    )}
   </Container>
 );
 

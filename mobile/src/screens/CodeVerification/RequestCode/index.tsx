@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -16,28 +15,29 @@ import Button from '../../../components/Button';
 
 import { logo } from '../../../assets';
 
-import api from '../../../services/api';
+import { useVerification } from '../../../hooks';
 
 const RequestCode: React.FC = () => {
+  const { requestCode } = useVerification();
   const { navigate } = useNavigation();
 
   const [phone_number, setPhoneNumber] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = useCallback(async () => {
+    setLoading(true);
+
     const formatted_phone = `+55${phone_number.replace(/\s/g, '')}`;
 
     try {
-      const response = await api.post('/account', {
-        phone_number: formatted_phone,
-      });
-
-      Alert.alert('Successo', response.data.content);
+      await requestCode(formatted_phone);
 
       navigate('VerifyCode');
-    } catch ({ response }) {
-      Alert.alert('Erro', 'Tente novamente');
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
     }
-  }, [navigate, phone_number]);
+  }, [navigate, phone_number, requestCode]);
   return (
     <Container>
       <LogoImage source={logo} />
@@ -57,7 +57,9 @@ const RequestCode: React.FC = () => {
           }}
         />
       </ContainerInput>
-      <Button onPress={handleSubmit}>Solicitar código</Button>
+      <Button loading={loading} onPress={handleSubmit}>
+        Solicitar código
+      </Button>
     </Container>
   );
 };
