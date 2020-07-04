@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import TextInputMask from 'react-native-text-input-mask';
+
+import { TextInputMask } from 'react-native-masked-text';
 
 interface ContainerProps {
   error: boolean;
@@ -18,7 +19,7 @@ export const Container = styled.View<ContainerProps>`
   border-radius: 20px;
   border: 1.5px solid #fff
     ${props => props.isFocused
-      css`
+      && css`
         border-color: #25a182;
       `};
 `;

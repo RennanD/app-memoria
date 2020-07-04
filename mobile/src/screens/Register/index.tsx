@@ -1,10 +1,12 @@
 import React, { useRef, useCallback } from 'react';
-import { TextInput } from 'react-native';
+import { TextInput, Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
+
+import { useVerification, useAuth } from '../../hooks';
 
 import {
   Container,
@@ -17,10 +19,27 @@ import {
 } from './styles';
 
 import Button from '../../components/Button';
+import MaskedInput from '../../components/MaskedInput';
 import PickerInput from '../../components/PickerInput';
+import DatePickerInput from '../../components/DatePickerInput/index.android';
+import api from '../../services/api';
+
+interface SingUpData {
+  address: string;
+  birthday: Date;
+  cpf: string;
+  email: string;
+  gender: string;
+  name: string;
+  password: string;
+  phone_number: string;
+  zipcode: string;
+}
 
 const Register: React.FC = () => {
   const { navigate } = useNavigation();
+  const { phone_number } = useVerification();
+  const { signIn } = useAuth();
 
   const formRef = useRef<FormHandles>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -30,9 +49,26 @@ const Register: React.FC = () => {
   const genderRef = useRef<TextInput>(null);
   const addressRef = useRef<TextInput>(null);
 
-  const handleSubmit = useCallback((data: any) => {
-    console.log(data);
-  }, []);
+  const handleSubmit = useCallback(
+    async (data: SingUpData) => {
+      try {
+        await api.post('/users', {
+          phone: data.phone_number,
+          ...data,
+        });
+
+        Alert.alert('Sucesso', 'Usuário cadastrado com sucesso');
+
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch ({ response }) {
+        Alert.alert('Erro', response.data.message);
+      }
+    },
+    [phone_number, signIn],
+  );
 
   const handleNavigate = useCallback(() => {
     navigate('Login');
@@ -47,7 +83,11 @@ const Register: React.FC = () => {
         }}
       />
 
-      <Form ref={formRef} onSubmit={handleSubmit}>
+      <Form
+        ref={formRef}
+        initialData={{ phone_number: '+5586995172761' }}
+        onSubmit={handleSubmit}
+      >
         <Input
           autoCorrect={false}
           autoCapitalize="words"
@@ -59,45 +99,63 @@ const Register: React.FC = () => {
         />
 
         <Input
+          ref={emailRef}
+          autoCorrect={false}
+          autoCapitalize="none"
+          icon="email"
+          placeholder="E-mail"
+          keyboardType="email-address"
+          name="email"
+          returnKeyType="next"
+          onSubmitEditing={() => passwordRef.current?.focus()}
+        />
+
+        <Input
           ref={passwordRef}
           icon="lock"
           placeholder="Senha"
           secureTextEntry
           name="password"
           returnKeyType="next"
-          onSubmitEditing={() => emailRef.current?.focus()}
-        />
-
-        <Input
-          ref={emailRef}
-          icon="email"
-          placeholder="E-mail"
-          keyboardType="email-address"
-          name="email"
-          returnKeyType="next"
           onSubmitEditing={() => phoneRef.current?.focus()}
         />
 
-        <Input
+        <MaskedInput
           ref={phoneRef}
           icon="cellphone-iphone"
           placeholder="Telefone"
           editable={false}
           name="phone_number"
           returnKeyType="next"
+          type="custom"
+          options={{
+            mask: '+99 99 9 9999 9999',
+          }}
           onSubmitEditing={() => cpfRef.current?.focus()}
         />
 
-        <Input
+        <MaskedInput
           ref={cpfRef}
           icon="account-badge-horizontal-outline"
           placeholder="CPF"
           name="cpf"
           returnKeyType="next"
+          type="cpf"
           onSubmitEditing={() => genderRef.current?.focus()}
         />
 
+        <DatePickerInput name="birthday" />
+
         <PickerInput name="gender" />
+
+        <MaskedInput
+          icon="mailbox-outline"
+          placeholder="CEP"
+          name="zipcode"
+          returnKeyType="send"
+          type="zip-code"
+          onSubmitEditing={() => addressRef.current?.focus()}
+        />
 
         <Input
           ref={addressRef}
@@ -108,7 +166,9 @@ const Register: React.FC = () => {
           onSubmitEditing={() => formRef.current?.submitForm()}
         />
 
-        <Button onPress={() => formRef.current?.submitForm()}>Cadastrar</Button>
+        <Button loading={false} onPress={() => formRef.current?.submitForm()}>
+          Cadastrar
+        </Button>
       </Form>
 
       <LinkTextContainer>

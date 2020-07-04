@@ -22,16 +22,20 @@ const VerifyCode: React.FC = () => {
   const [code, setCode] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { verifyCode, phone_number } = useVerification();
+  const { verifyCode, phone_number, requestCode } = useVerification();
   const { navigate } = useNavigation();
 
-  const pressButton = useCallback(() => {
+  const message = `Enviamos um código de verificação para ${phone_number}. Digite o código recebeido.`;
+
+  const pressButton = useCallback(async () => {
     setPressed(true);
 
     setTimeout(() => {
       setPressed(false);
     }, 200);
-  }, [setPressed]);
+
+    await requestCode(phone_number);
+  }, [phone_number, requestCode]);
 
   const handleVerifyCode = useCallback(async () => {
     setLoading(true);
@@ -51,8 +55,7 @@ const VerifyCode: React.FC = () => {
       <IconImage source={cellphone} />
       <Content>
         <InfoText>
-          Enviamos um código de verificação para +55 86 0000 0000. Digite o
-          código recebeido.
+          {message}
           <ReinviteButtonText pressed={pressed} onPress={pressButton}>
             {' '}
             Não recebi o código.

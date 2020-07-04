@@ -7,12 +7,13 @@ import React, {
   useCallback,
 } from 'react';
 
-import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
 
-import { Container, Input, Icon } from './styles';
+import { TextInputMaskProps } from 'react-native-masked-text';
 
-interface InputProps extends TextInputProps {
+import { Container, Icon, Input } from './styles';
+
+interface InputProps extends TextInputMaskProps {
   name: string;
   icon: string;
 }
@@ -35,8 +36,10 @@ const MaskedInput: React.RefForwardingComponent<InputRef, InputProps> = (
   const [isFilled, setIsFilled] = useState<boolean>(false);
 
   const { fieldName, registerField, defaultValue = '', error } = useField(name);
+
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
+  const [inputValue, setInputValue] = useState<string>(defaultValue);
   const handleInputFocus = useCallback(() => {
     setIsFocused(true);
   }, [setIsFocused]);
@@ -77,8 +80,9 @@ const MaskedInput: React.RefForwardingComponent<InputRef, InputProps> = (
       />
       <Input
         ref={inputElementRef}
-        defaultValue={defaultValue}
+        value={inputValue}
         onChangeText={value => {
+          setInputValue(value);
           inputValueRef.current.value = value;
         }}
         onFocus={handleInputFocus}
