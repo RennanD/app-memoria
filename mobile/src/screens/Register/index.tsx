@@ -67,7 +67,7 @@ const Register: React.FC = () => {
         Alert.alert('Erro', response.data.message);
       }
     },
-    [phone_number, signIn],
+    [signIn],
   );
 
   const handleNavigate = useCallback(() => {
