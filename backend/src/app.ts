@@ -7,6 +7,7 @@ import './database';
 
 // import appErrors from './middlewares/exceptionHandlers';
 import userRoutes from './modules/user/routes';
+import adminRoutes from './modules/admin/routes';
 
 import AppError from './errors/AppError';
 
@@ -14,6 +15,7 @@ const app = express();
 
 app.use(express.json());
 app.use(userRoutes);
+app.use('/admin', adminRoutes);
 
 app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
   if (err instanceof AppError) {

@@ -89,17 +89,13 @@ Cadastro de usuário na aplicação
 - [ ] As categorias devem seguir a seguinte estrutura:
 
   ```js
-  interface Category {
+  interface UserPreferences {
     id: string;
     person_id: string;
     category_id: string;
     subcategories_title: string[];
   }
   ```
-
-### RNF
-
-- [ ] Somente o admin pode criar preferências;
 
 ### RN
 
@@ -219,7 +215,7 @@ Cadastrar novas preferências no sistema.
 - [ ] As categorias devem seguir a seguinte estrutura:
 
   ```js
-  interface Category {
+  interface Preference {
     id: string;
     category_name: string;
     subcategories: string[];

@@ -9,6 +9,8 @@ import { Alert } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
 
+import { useAuth } from '.';
+
 import api from '../services/api';
 
 interface VerificationContextData {
@@ -27,6 +29,8 @@ export const VerifcationProvider: React.FC = ({ children }) => {
   const [phone, setPhone] = useState<string>('');
   const [verified, setVerified] = useState<string>('');
 
+  const { account } = useAuth();
+
   useEffect(() => {
     async function loadPhone(): Promise<void> {
       const verified_phone = await AsyncStorage.getItem('@memoria:verified');
@@ -38,6 +42,20 @@ export const VerifcationProvider: React.FC = ({ children }) => {
 
     loadPhone();
   }, []);
+
+  useEffect(() => {
+    async function verifyCodeEffect() {
+      const localVerify = await AsyncStorage.getItem('@memoria:verified');
+
+      if (localVerify) {
+        setVerified(localVerify);
+      }
+
+      console.log(account);
+    }
+
+    verifyCodeEffect();
+  }, [account]);
 
   const requestCode = useCallback(async phone_number => {
     try {

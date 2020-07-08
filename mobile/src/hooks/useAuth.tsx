@@ -23,6 +23,7 @@ interface SingInCredencials {
 interface Account {
   user: {
     id: string;
+    isVerified: boolean;
   };
 }
 
