@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import controllUserAccess from '../../../middlewares/controllUserAccess';
+
 import CreatePreferenceServices from '../services/CreatePreferenceService';
+import CreateSubcategoriesService from '../services/CreateSubcategoriesService';
+
+import controllUserAccess from '../../../middlewares/controllUserAccess';
 
 const preferencesRouter = Router();
 
@@ -15,5 +18,23 @@ preferencesRouter.post('/', async (request, response) => {
 
   return response.json(preference);
 });
+
+preferencesRouter.post(
+  '/:category/subcategories',
+  async (request, response) => {
+    const { category } = request.params;
+
+    const data = request.body;
+
+    const createSubcategories = new CreateSubcategoriesService();
+
+    const preference = await createSubcategories.execute({
+      category,
+      subcategories: data,
+    });
+
+    return response.json(preference);
+  },
+);
 
 export default preferencesRouter;

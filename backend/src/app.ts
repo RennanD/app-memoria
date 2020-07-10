@@ -4,6 +4,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 
 import './database';
+import './database/mongoConnect';
 
 // import appErrors from './middlewares/exceptionHandlers';
 import userRoutes from './modules/user/routes';

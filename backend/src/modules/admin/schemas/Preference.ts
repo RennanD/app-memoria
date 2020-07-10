@@ -1,31 +1,21 @@
-import {
-  ObjectID,
-  ObjectIdColumn,
-  Entity,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { model, Schema } from 'mongoose';
 
-@Entity('preferences')
-class Preference {
-  @ObjectIdColumn()
-  id: ObjectID;
+const PreferenceSchema = new Schema(
+  {
+    category: {
+      type: String,
+      required: true,
+    },
+    subcategories: [
+      {
+        type: String,
+      },
+    ],
+    deleted_at: Date,
+  },
+  {
+    timestamps: true,
+  },
+);
 
-  @Column()
-  category: string;
-
-  @Column()
-  subcategoties: string[];
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @Column()
-  deleted_at: Date;
-}
-
-export default Preference;
+export default model('Preference', PreferenceSchema);
