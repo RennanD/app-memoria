@@ -1,4 +1,9 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
+
+interface Preference extends Document {
+  category: string;
+  subcategories: string[];
+}
 
 const PreferenceSchema = new Schema(
   {
@@ -18,4 +23,4 @@ const PreferenceSchema = new Schema(
   },
 );
 
-export default model('Preference', PreferenceSchema);
+export default model<Preference>('Preference', PreferenceSchema);

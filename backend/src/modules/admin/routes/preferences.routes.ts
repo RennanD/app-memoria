@@ -20,16 +20,16 @@ preferencesRouter.post('/', async (request, response) => {
 });
 
 preferencesRouter.post(
-  '/:category/subcategories',
+  '/:preference_id/subcategories',
   async (request, response) => {
-    const { category } = request.params;
+    const { preference_id } = request.params;
 
-    const data = request.body;
+    const data: string[] = request.body.subcategories;
 
     const createSubcategories = new CreateSubcategoriesService();
 
     const preference = await createSubcategories.execute({
-      category,
+      preference_id,
       subcategories: data,
     });
 

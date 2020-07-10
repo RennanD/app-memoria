@@ -1,39 +1,32 @@
-import { getMongoRepository } from 'typeorm';
-
+import { Document } from 'mongoose';
 import Preference from '../schemas/Preference';
 import AppError from '../../../errors/AppError';
 
 interface Request {
-  category: string;
+  preference_id: string;
   subcategories: string[];
 }
 
 class CreateSubcategoriesService {
   public async execute({
-    category,
+    preference_id,
     subcategories,
-  }: Request): Promise<Preference> {
-    const preferenceRepository = getMongoRepository(Preference, 'mongo');
-
-    const checkPreference = await preferenceRepository.findOne({
-      where: { category },
-    });
-
-    console.log(checkPreference);
+  }: Request): Promise<Document> {
+    const checkPreference = await Preference.findById(preference_id);
 
     if (!checkPreference) {
       throw new AppError('Preferência não encontrada');
     }
 
-    const existentSubcategories = checkPreference.subcategoties;
+    const existentSubcategories = checkPreference.subcategories;
 
     const finalSubcategories = subcategories
-      .filter(subcategory => existentSubcategories.includes(subcategory))
+      .filter(subcategory => !existentSubcategories?.includes(subcategory))
       .filter((value, index, self) => self.indexOf(value) === index);
 
-    checkPreference.subcategoties.push(...finalSubcategories);
+    checkPreference.subcategories.push(...finalSubcategories);
 
-    await preferenceRepository.save(checkPreference);
+    await checkPreference.save();
 
     return checkPreference;
   }

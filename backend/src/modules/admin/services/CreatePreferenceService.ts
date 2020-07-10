@@ -18,6 +18,7 @@ class CreatePreferenceServices {
 
     const preference = await Preference.create({
       category,
+      subcategories: [],
     });
 
     return preference;
