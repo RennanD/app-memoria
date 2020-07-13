@@ -1,12 +1,21 @@
 import { Router } from 'express';
 
 import CreatePreferencesService from '../services/CreatePreferencesService';
+import ListAllPreferencesService from '../services/ListAllPreferencesService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 
 const preferencesRouter = Router();
 
 preferencesRouter.use(ensureAuthenticated);
+
+preferencesRouter.get('/list', async (request, response) => {
+  const listPreferences = new ListAllPreferencesService();
+
+  const preferences = await listPreferences.execute();
+
+  return response.json(preferences);
+});
 
 preferencesRouter.post('/person/:id', async (request, response) => {
   const id = request.params.id as string;

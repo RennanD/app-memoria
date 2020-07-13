@@ -1,12 +1,20 @@
+/* eslint-disable no-unused-expressions */
 import { getRepository } from 'typeorm';
 
-import Preferences from '../models/Preferences';
+import Preferences from '../schemas/PrersonPreferences';
+
 import User from '../models/User';
+import Contact from '../models/Contact';
 
 import AppError from '../../../errors/AppError';
 
 interface RequestDTO {
   category: string;
+  subcategories: string[];
+}
+
+interface Response {
+  status: number;
   content: string;
 }
 
@@ -16,32 +24,75 @@ interface Request {
 }
 
 class CreatePreferencesService {
-  public async execute({
-    person_id,
-    preferences,
-  }: Request): Promise<Preferences[]> {
-    const preferencesRepository = getRepository(Preferences);
+  public async execute({ person_id, preferences }: Request): Promise<Response> {
     const userRepository = getRepository(User);
+    const contactRepository = getRepository(Contact);
 
     const checkUser = await userRepository.findOne({
       where: { id: person_id },
     });
 
     if (!checkUser) {
-      throw new AppError('Usuário não encontrado');
+      const checkContact = await contactRepository.findOne({
+        where: { id: person_id },
+      });
+
+      if (!checkContact) {
+        throw new AppError(
+          'Não foi possível localizar um usuário ou um contato com este ID',
+        );
+      }
     }
 
-    const newPreferences = preferencesRepository.create(
-      preferences.map(preference => ({
+    const preferencesDatabase = await Preferences.find();
+
+    const preferencesDatabaseCategory = preferencesDatabase.map(
+      preference => preference.category,
+    );
+
+    const existentPreferences = preferences.filter(preference =>
+      preferencesDatabaseCategory.includes(preference.category),
+    );
+
+    const newCategories = preferences.filter(
+      preference => !preferencesDatabaseCategory.includes(preference.category),
+    );
+
+    existentPreferences.map(async updatedPreference => {
+      const findPreference = await Preferences.findOne({
+        category: updatedPreference.category,
+      });
+
+      const newSubcategories = updatedPreference.subcategories.filter(
+        newPreference => !findPreference?.subcategories.includes(newPreference),
+      );
+
+      findPreference?.subcategories.push(...newSubcategories);
+
+      await findPreference?.save();
+
+      return findPreference;
+    });
+
+    if (!newCategories.length) {
+      return {
+        status: 200,
+        content: 'Preferências atualizadas com sucesso',
+      };
+    }
+
+    await Preferences.create(
+      newCategories.map(preference => ({
         person_id,
-        category: preference.category.toLowerCase(),
-        content: preference.content.toLowerCase(),
+        category: preference.category,
+        subcategories: [...preference.subcategories],
       })),
     );
 
-    await preferencesRepository.save(newPreferences);
-
-    return newPreferences;
+    return {
+      status: 200,
+      content: 'Preferências criadas com sucesso!',
+    };
   }
 }
 

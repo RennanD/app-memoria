@@ -26,3 +26,21 @@ export const PreferencesContainer = styled.ScrollView.attrs({
 })`
   flex: 1;
 `;
+
+export const SubmitButton = styled.TouchableOpacity`
+  position: absolute;
+  height: 50px;
+
+  align-items: center;
+  justify-content: center;
+  right: 30px;
+  left: 20px;
+  bottom: 20px;
+  border-radius: 20px;
+  background: #25a182;
+`;
+
+export const SubmitButtonText = styled.Text`
+  color: #fff;
+  font-size: 16px;
+`;

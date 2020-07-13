@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -15,6 +15,7 @@ interface AccordionProps {
   onPress(): void;
   opened: boolean;
   items: string[];
+  selectedItems: string[];
   onSelectItem(category: string, subcategory: string): void;
 }
 const Accordion: React.FC<AccordionProps> = ({
@@ -23,6 +24,7 @@ const Accordion: React.FC<AccordionProps> = ({
   items,
   title,
   onSelectItem,
+  selectedItems,
 }) => {
   const handleSelectItem = useCallback(
     (item: string) => {
@@ -44,8 +46,14 @@ const Accordion: React.FC<AccordionProps> = ({
       {opened && (
         <>
           {items.map(item => (
-            <PreferencesItem onPress={() => handleSelectItem(item)}>
-              <PreferencesItemText>{item}</PreferencesItemText>
+            <PreferencesItem
+              key={item}
+              selected={selectedItems.includes(item)}
+              onPress={() => handleSelectItem(item)}
+            >
+              <PreferencesItemText selected={selectedItems.includes(item)}>
+                {item}
+              </PreferencesItemText>
             </PreferencesItem>
           ))}
         </>

@@ -33,7 +33,7 @@ interface AuthState {
 }
 
 interface AuthContextData {
-  account: object;
+  account: Account;
   signIn(credencials: SingInCredencials): Promise<void>;
   signOut(): void;
 }

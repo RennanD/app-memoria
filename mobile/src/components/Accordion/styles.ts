@@ -1,6 +1,10 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View``;
+
+interface PreferencesItemProps {
+  selected: boolean;
+}
 
 export const PreferencesButton = styled.TouchableOpacity`
   height: 55px;
@@ -18,7 +22,7 @@ export const PreferencesButtonText = styled.Text`
   color: #fff;
 `;
 
-export const PreferencesItem = styled.TouchableOpacity`
+export const PreferencesItem = styled.TouchableOpacity<PreferencesItemProps>`
   height: 46px;
   align-items: center;
   padding: 0 20px;
@@ -27,9 +31,23 @@ export const PreferencesItem = styled.TouchableOpacity`
   border-radius: 20px;
   margin-bottom: 5px;
   border: 1px solid #ddd;
+
+  ${props =>
+    props.selected &&
+    css`
+      background: #65c4b0;
+      opacity: 0.6;
+      border: 0;
+    `}
 `;
 
-export const PreferencesItemText = styled.Text`
+export const PreferencesItemText = styled.Text<PreferencesItemProps>`
   font-size: 16px;
   color: #333;
+
+  ${props =>
+    props.selected &&
+    css`
+      color: #fff;
+    `}
 `;

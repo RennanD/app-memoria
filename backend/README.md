@@ -86,13 +86,13 @@ Cadastro de usuário na aplicação
 
 ### RF
 
-- [ ] As categorias devem seguir a seguinte estrutura:
+- [ ] As preferências devem seguir a seguinte estrutura:
 
   ```js
   interface UserPreferences {
     id: string;
     person_id: string;
-    category_id: string;
+    category: string;
     subcategories_title: string[];
   }
   ```
@@ -212,7 +212,7 @@ Cadastrar novas preferências no sistema.
 
 ### RF
 
-- [ ] As categorias devem seguir a seguinte estrutura:
+- [x] As categorias devem seguir a seguinte estrutura:
 
   ```js
   interface Preference {
@@ -224,7 +224,7 @@ Cadastrar novas preferências no sistema.
 
 ### RNF
 
-- [ ] Usar mongodb para estrutura de preferências.
+- [x] Usar mongodb para estrutura de preferências.
 
 
 
