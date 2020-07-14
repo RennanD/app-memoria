@@ -40,7 +40,7 @@ const Profile: React.FC = () => {
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>
 
-        <ActionButton onPress={() => handleNavigate('Preferences')}>
+        <ActionButton onPress={() => handleNavigate('PreferencesRoutes')}>
           <ActionButtonText>Gostos e preferências</ActionButtonText>
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>

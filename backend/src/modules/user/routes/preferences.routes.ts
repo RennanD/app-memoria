@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import CreatePreferencesService from '../services/CreatePreferencesService';
 import ListAllPreferencesService from '../services/ListAllPreferencesService';
+import ListPersonPreferencesService from '../services/ListPersonPreferencesService';
 
 import ensureAuthenticated from '../../../middlewares/ensureAuthenticate';
 
@@ -13,6 +14,16 @@ preferencesRouter.get('/list', async (request, response) => {
   const listPreferences = new ListAllPreferencesService();
 
   const preferences = await listPreferences.execute();
+
+  return response.json(preferences);
+});
+
+preferencesRouter.get('/person', async (request, response) => {
+  const person_id = request.user.id;
+
+  const listPreferences = new ListPersonPreferencesService();
+
+  const preferences = await listPreferences.execute(person_id);
 
   return response.json(preferences);
 });
