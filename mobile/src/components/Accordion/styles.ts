@@ -35,9 +35,7 @@ export const PreferencesItem = styled.TouchableOpacity<PreferencesItemProps>`
   ${props =>
     props.selected &&
     css`
-      background: #65c4b0;
-      opacity: 0.6;
-      border: 0;
+      border-color: #65c4b0;
     `}
 `;
 
@@ -48,6 +46,6 @@ export const PreferencesItemText = styled.Text<PreferencesItemProps>`
   ${props =>
     props.selected &&
     css`
-      color: #fff;
+      color: #65c4b0;
     `}
 `;

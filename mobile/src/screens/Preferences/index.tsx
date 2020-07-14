@@ -21,15 +21,20 @@ import { useAuth } from '../../hooks';
 
 interface PreferenceItemProps {
   category: string;
+  subcategory: string;
+}
+
+interface StatePreferenceItemProps {
+  category: string;
   subcategories: string[];
 }
 
 const Preferences: React.FC = () => {
   const [activeItem, setActiveItem] = useState('');
   const [preferencesItems, setPreferencesItems] = useState<
-    PreferenceItemProps[]
-  >([] as PreferenceItemProps[]);
-  const [seletcItems, setSelectItems] = useState<PreferenceItemProps[]>(
+    StatePreferenceItemProps[]
+  >([] as StatePreferenceItemProps[]);
+  const [selectItems, setSelectItems] = useState<PreferenceItemProps[]>(
     [] as PreferenceItemProps[],
   );
   const [selectedSubategories, setSelectedSubcategories] = useState<string[]>(
@@ -49,7 +54,7 @@ const Preferences: React.FC = () => {
 
   const handleToggleAccordion = useCallback(
     (name: string) => {
-      if (name === activeItem) {
+      if (activeItem === name) {
         setActiveItem('');
         return;
       }
@@ -60,50 +65,79 @@ const Preferences: React.FC = () => {
 
   const handleSelectItem = useCallback(
     (category: string, subcategory: string) => {
-      const stateItems = seletcItems.map(items => items);
+      const newPreference = {
+        category,
+        subcategory,
+      };
 
-      const findCategories = stateItems.find(
-        item => item.category === category,
+      const existentSubcategory = selectedSubategories.find(
+        selectedSubategory => selectedSubategory === subcategory,
       );
 
-      if (!findCategories) {
-        const preference = {
-          category,
-          subcategories: [subcategory],
-        };
-        stateItems.push(preference);
-
-        setSelectItems(stateItems);
-        setSelectedSubcategories(preference.subcategories);
+      if (existentSubcategory) {
+        const filteredSubcategories = selectedSubategories.filter(
+          selectedSubategory => selectedSubategory !== subcategory,
+        );
+        setSelectedSubcategories(filteredSubcategories);
+      } else {
+        setSelectedSubcategories([...selectedSubategories, subcategory]);
       }
 
-      if (findCategories) {
-        const findSubcategory = findCategories.subcategories.findIndex(
-          subcategoryItem => subcategoryItem === subcategory,
+      const existentPreference = selectItems.find(
+        seletcItem => seletcItem.subcategory === newPreference.category,
+      );
+
+      if (existentPreference) {
+        const filteredItem = selectItems.filter(
+          item => item !== existentPreference,
         );
-        if (findSubcategory > -1) {
-          findCategories.subcategories.splice(findSubcategory, 1);
-        } else {
-          findCategories.subcategories.push(subcategory);
-        }
-        setSelectItems([findCategories]);
-        setSelectedSubcategories(findCategories.subcategories);
+        setSelectItems(filteredItem);
+      } else {
+        setSelectItems([...selectItems, newPreference]);
       }
     },
-    [seletcItems],
+    [selectItems, selectedSubategories],
   );
 
   const handleSubmit = useCallback(async () => {
-    if (!seletcItems.length) {
+    if (!selectItems.length) {
       Alert.alert('Erro', 'Adicione pelo menos uma preferência.');
     } else {
-      await api.post(`/preferences/person/${account.user.id}`, {
-        preferences: seletcItems,
+      const reducedItems = selectItems.filter(
+        (selectItem, index, array) =>
+          // eslint-disable-next-line implicit-arrow-linebreak
+          array
+            .map(mapItem => mapItem.category)
+            .indexOf(selectItem.category) === index,
+      );
+
+      const finalPreferences = reducedItems.map(preference => {
+        const categoriesMap = selectItems.filter(selectItem => {
+          if (selectItem.category === preference.category) {
+            return selectItem.subcategory;
+          }
+
+          return '';
+        });
+
+        return {
+          category: preference.category,
+          subcategories: categoriesMap.map(
+            preferenceItem => preferenceItem.subcategory,
+          ),
+        };
       });
 
-      Alert.alert('Sucesso', 'Preferências adicionadas com sucesso.');
+      const response = await api.post(
+        `/preferences/person/${account.user.id}`,
+        {
+          preferences: finalPreferences,
+        },
+      );
+
+      Alert.alert('Sucesso', response.data.content);
     }
-  }, [seletcItems, account]);
+  }, [selectItems, account]);
 
   return (
     <Container>
@@ -111,7 +145,6 @@ const Preferences: React.FC = () => {
         <Feather name="heart" color="#25A182" size={100} />
         <PageTitle>Gostos e preferências</PageTitle>
       </Header>
-
       <PreferencesContainer>
         {preferencesItems.map(preference => (
           <Accordion
