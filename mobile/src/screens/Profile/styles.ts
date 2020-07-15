@@ -42,3 +42,17 @@ export const ActionButtonText = styled.Text`
   font-size: 18px;
   color: #fff;
 `;
+
+export const LogoutButton = styled.TouchableOpacity`
+  background: #ec3030;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border-radius: 20px;
+  margin-top: 20px;
+`;
+
+export const LogoutButtonText = styled.Text`
+  color: #fff;
+  font-size: 15px;
+`;

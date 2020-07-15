@@ -11,10 +11,15 @@ import {
   ActionButtonText,
   Header,
   Avatar,
+  LogoutButton,
+  LogoutButtonText,
 } from './styles';
+
+import { useAuth } from '../../hooks';
 
 const Profile: React.FC = () => {
   const { navigate } = useNavigation();
+  const { signOut } = useAuth();
 
   const handleNavigate = useCallback(
     (route: string) => {
@@ -22,6 +27,10 @@ const Profile: React.FC = () => {
     },
     [navigate],
   );
+
+  const handleLogout = useCallback(async () => {
+    await signOut();
+  }, [signOut]);
 
   return (
     <Container>
@@ -45,6 +54,11 @@ const Profile: React.FC = () => {
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>
 
+        <ActionButton onPress={() => handleNavigate('DateRoutes')}>
+          <ActionButtonText>Minhas datas</ActionButtonText>
+          <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
+        </ActionButton>
+
         <ActionButton>
           <ActionButtonText>Convide pessoas</ActionButtonText>
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
@@ -54,6 +68,10 @@ const Profile: React.FC = () => {
           <ActionButtonText>Minhas mensagens</ActionButtonText>
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>
+
+        <LogoutButton onPress={handleLogout}>
+          <LogoutButtonText>Sair</LogoutButtonText>
+        </LogoutButton>
       </Content>
     </Container>
   );

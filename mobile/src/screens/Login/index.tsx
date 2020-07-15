@@ -66,7 +66,7 @@ const Login: React.FC = () => {
           autoCapitalize="none"
           keyboardType="email-address"
           icon="account"
-          placeholder="Nome completo"
+          placeholder="E-mail"
           name="email"
           returnKeyType="next"
           onSubmitEditing={() => passwordRef.current?.focus()}

@@ -34,6 +34,9 @@ class Contact {
   @Column()
   avatar: string;
 
+  @Column()
+  relationship: string;
+
   @CreateDateColumn()
   created_at: Date;
 

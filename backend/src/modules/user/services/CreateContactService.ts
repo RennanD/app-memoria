@@ -9,6 +9,7 @@ interface Request {
   name: string;
   phone_number: string;
   avatar?: string;
+  relationship: string;
 }
 
 class CreateContactService {

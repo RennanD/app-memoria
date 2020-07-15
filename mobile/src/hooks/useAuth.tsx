@@ -35,7 +35,7 @@ interface AuthState {
 interface AuthContextData {
   account: Account;
   signIn(credencials: SingInCredencials): Promise<void>;
-  signOut(): void;
+  signOut(): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);

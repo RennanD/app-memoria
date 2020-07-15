@@ -4,22 +4,23 @@ import ImportantDate from '../models/ImportantDate';
 
 interface Request {
   user_id: string;
+  month: number;
+}
+
+interface Events extends ImportantDate {
+  monthDay: number;
 }
 
 interface Response {
-  id: string;
-  date: Date;
-  create_at: Date;
-  updated_at: Date;
-  contact: {
-    id: string;
-    name: string;
-    avatar?: string;
-  };
+  monthDay: number;
+  events: Events[];
 }
 
 class ListUserDatesService {
-  public async execute({ user_id }: Request): Promise<Response[] | undefined> {
+  public async execute({
+    user_id,
+    month,
+  }: Request): Promise<Response[] | undefined> {
     const dateRepository = getRepository(ImportantDate);
 
     const dates = await dateRepository.find({
@@ -29,19 +30,36 @@ class ListUserDatesService {
       },
     });
 
-    const serialiazedDates = dates.map(date => ({
-      id: date.id,
-      date: date.date,
-      create_at: date.created_at,
-      updated_at: date.updated_at,
-      contact: {
-        id: date.contact.id,
-        name: date.contact.name,
-        avatar: date.contact.avatar,
-      },
-    }));
+    const queryDates = dates
+      .filter(importantDate => importantDate.date.getMonth() + 1 === month)
+      .map(queryDate => ({
+        monthDay: queryDate.date.getDate(),
+        ...queryDate,
+      }));
 
-    return serialiazedDates;
+    const reducedDates = queryDates.filter(
+      (selectItem, index, array) =>
+        // eslint-disable-next-line implicit-arrow-linebreak
+        array.map(mapItem => mapItem.monthDay).indexOf(selectItem.monthDay) ===
+        index,
+    );
+
+    const finalDates = reducedDates.map(reducedDate => {
+      const dayMap = queryDates.filter(queryDate => {
+        if (queryDate.monthDay === reducedDate.monthDay) {
+          return queryDate;
+        }
+
+        return null;
+      });
+
+      return {
+        monthDay: reducedDate.monthDay,
+        events: [...dayMap],
+      };
+    });
+
+    return finalDates;
   }
 }
 

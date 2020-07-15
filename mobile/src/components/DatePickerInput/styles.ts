@@ -2,9 +2,14 @@ import styled from 'styled-components/native';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-export const Container = styled.TouchableOpacity`
+interface ContainerProps {
+  borderColor: string;
+}
+
+export const Container = styled.TouchableOpacity<ContainerProps>`
   height: 50px;
   background: #fff;
+  border: 1.5px solid ${props => props.borderColor};
   padding: 0 10px;
   align-items: center;
   flex-direction: row;

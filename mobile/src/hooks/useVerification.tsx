@@ -50,8 +50,6 @@ export const VerifcationProvider: React.FC = ({ children }) => {
       if (localVerify) {
         setVerified(localVerify);
       }
-
-      console.log(account);
     }
 
     verifyCodeEffect();

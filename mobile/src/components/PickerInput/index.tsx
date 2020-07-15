@@ -1,19 +1,38 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Picker } from '@react-native-community/picker';
+
+import RNPickerSelect from 'react-native-picker-select';
+
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useField } from '@unform/core';
 
-import { Container, Icon } from './styles';
+import { View } from 'react-native';
+import { Container } from './styles';
+
+interface PickerItemProps {
+  label: string;
+  value: string;
+}
 
 interface PickerProps {
   name: string;
+  icon: string;
+  placeholder: string;
+  borderColor?: string;
+  items: PickerItemProps[];
 }
 
 interface InputValueReference {
   value: string;
 }
 
-const PickerInput: React.FC<PickerProps> = ({ name }) => {
+const PickerInput: React.FC<PickerProps> = ({
+  name,
+  icon,
+  items,
+  placeholder,
+  borderColor = '#fff',
+}) => {
   const { fieldName, registerField, defaultValue = '' } = useField(name);
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
@@ -30,23 +49,23 @@ const PickerInput: React.FC<PickerProps> = ({ name }) => {
   });
 
   return (
-    <Container>
-      <Icon name="gender-male-female" size={30} color="#65C4B0" />
-      <Picker
-        ref={inputElementRef}
-        selectedValue={selected}
-        style={{ flex: 1 }}
-        onValueChange={itemValue => {
-          inputValueRef.current.value = String(itemValue);
-          setSelected(itemValue);
-        }}
-      >
-        <Picker.Item label="Selecione um gênero" value="" />
-        <Picker.Item label="Masculino" value="masculino" />
-        <Picker.Item label="Feminino" value="feminino" />
-        <Picker.Item label="Outro" value="outro" />
-      </Picker>
-    </Container>
+    <>
+      <Container borderColor={borderColor}>
+        <MaterialCommunityIcons name={icon} size={30} color="#65C4B0" />
+
+        <View style={{ flex: 1 }}>
+          <RNPickerSelect
+            ref={inputElementRef}
+            placeholder={{ label: placeholder }}
+            onValueChange={itemValue => {
+              inputValueRef.current.value = String(itemValue);
+              setSelected(itemValue);
+            }}
+            items={items}
+          />
+        </View>
+      </Container>
+    </>
   );
 };
 

@@ -31,9 +31,11 @@ datesRouter.get('/', async (request, response) => {
   const listDates = new ListUserDatesService();
 
   const { id } = request.user;
+  const month = request.query.month as string;
 
   const dates = await listDates.execute({
     user_id: id,
+    month: Number(month),
   });
 
   return response.json(dates);

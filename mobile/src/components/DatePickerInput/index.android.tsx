@@ -17,13 +17,19 @@ import { Container, DatePickerText, Icon, PlaceholderText } from './styles';
 
 interface PickerProps {
   name: string;
+  placeholder: string;
+  borderColor?: string;
 }
 
 interface InputValueReference {
   value: Date;
 }
 
-const DatePickerInput: React.FC<PickerProps> = ({ name }) => {
+const DatePickerInput: React.FC<PickerProps> = ({
+  name,
+  placeholder,
+  borderColor = '#fff',
+}) => {
   const { fieldName, registerField, defaultValue } = useField(name);
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
@@ -65,13 +71,17 @@ const DatePickerInput: React.FC<PickerProps> = ({ name }) => {
 
   return (
     <>
-      <Container ref={datepickerRef} onPress={handleToggleDatePicker}>
+      <Container
+        ref={datepickerRef}
+        borderColor={borderColor}
+        onPress={handleToggleDatePicker}
+      >
         <Icon name="calendar" size={30} color="#65C4B0" />
         <DatePickerText>
           {hasChanged ? (
             formattedDate
           ) : (
-            <PlaceholderText>Data de aniversário</PlaceholderText>
+            <PlaceholderText>{placeholder}</PlaceholderText>
           )}
         </DatePickerText>
       </Container>

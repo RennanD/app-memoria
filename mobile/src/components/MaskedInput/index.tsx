@@ -16,6 +16,7 @@ import { Container, Icon, Input } from './styles';
 interface InputProps extends TextInputMaskProps {
   name: string;
   icon: string;
+  borderColor?: string;
 }
 
 interface InputValueReference {
@@ -27,7 +28,7 @@ interface InputRef {
 }
 
 const MaskedInput: React.RefForwardingComponent<InputRef, InputProps> = (
-  { name, icon, ...rest },
+  { name, icon, borderColor = '#fff', ...rest },
   ref,
 ) => {
   const inputElementRef = useRef<any>(null);
@@ -72,7 +73,7 @@ const MaskedInput: React.RefForwardingComponent<InputRef, InputProps> = (
   }, [fieldName, registerField]);
 
   return (
-    <Container error={!!error} isFocused={isFocused}>
+    <Container borderColor={borderColor} error={!!error} isFocused={isFocused}>
       <Icon
         name={icon}
         size={30}
