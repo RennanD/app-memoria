@@ -70,3 +70,16 @@ export const EventLabelText = styled.Text`
   color: #fff;
   font-size: 14px;
 `;
+
+export const EmptyView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+`;
+
+export const EmptyViewText = styled.Text`
+  font-size: 24px;
+  color: #ddd;
+  text-align: center;
+`;

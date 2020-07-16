@@ -1,74 +1,84 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
   Container,
   Header,
   PageTitle,
-  ListDatesViewHeader,
   ListDatesItem,
   ListDatesDay,
   ListDatesMonth,
   ListDatesText,
   ListDatesView,
-  ListDatesViewHeaderText,
   EnventLabel,
   EventLabelText,
+  EmptyView,
+  EmptyViewText,
 } from './styles';
 
+import ListDateHeader from '../../components/ListDateHeader';
+
+import api from '../../services/api';
+
+interface Events {
+  monthDay: number;
+  id: string;
+  contact_id: string;
+  user_id: string;
+  date: Date;
+  description: string;
+}
+
+interface ImportantDates {
+  monthDay: number;
+  events: Events[];
+}
+
 const ListDates: React.FC = () => {
-  const data = [
-    {
-      date: '01',
-      weekDay: 'seg',
-      events: [
-        'Aniversário da mãe',
-        'Aniversário do pai',
-        'Aniversário da irmã',
-        'Aniversário do irmão',
-      ],
-    },
-    {
-      date: '02',
-      weekDay: 'ter',
-      events: [
-        'Aniversário da mãe',
-        'Aniversário do pai',
-        'Aniversário da irmã',
-        'Aniversário do irmão',
-      ],
-    },
-    {
-      date: '03',
-      weekDay: 'qua',
-      events: [
-        'Aniversário da mãe',
-        'Aniversário do pai',
-        'Aniversário da irmã',
-        'Aniversário do irmão',
-      ],
-    },
-    {
-      date: '04',
-      weekDay: 'qui',
-      events: [
-        'Aniversário da mãe',
-        'Aniversário do pai',
-        'Aniversário da irmã',
-        'Aniversário do irmão',
-      ],
-    },
-    {
-      date: '05',
-      weekDay: 'sex',
-      events: [
-        'Aniversário da mãe',
-        'Aniversário do pai',
-        'Aniversário da irmã',
-        'Aniversário do irmão',
-      ],
-    },
-  ];
+  const [dates, setDates] = useState<ImportantDates[]>([] as ImportantDates[]);
+  const [month, setMonth] = useState(0);
+
+  useEffect(() => {
+    async function loadDates() {
+      const response = await api.get('/dates', {
+        params: {
+          month,
+        },
+      });
+
+      setDates(response.data);
+    }
+
+    loadDates();
+  }, [month]);
+
+  if (!dates.length) {
+    return (
+      <Container>
+        <Header>
+          <MaterialCommunityIcons
+            name="calendar-month"
+            size={48}
+            color="#fff"
+          />
+          <PageTitle>Datas importantes</PageTitle>
+        </Header>
+
+        <ListDateHeader onChangeMonth={value => setMonth(Number(value))} />
+
+        <EmptyView>
+          <MaterialCommunityIcons
+            name="calendar-remove-outline"
+            color="#ddd"
+            size={40}
+          />
+          <EmptyViewText>
+            Não há datas cadastradas, selecione outro mês para continuar
+          </EmptyViewText>
+        </EmptyView>
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -77,17 +87,7 @@ const ListDates: React.FC = () => {
         <PageTitle>Datas importantes</PageTitle>
       </Header>
 
-      <ListDatesViewHeader>
-        <MaterialCommunityIcons
-          name="notification-clear-all"
-          size={26}
-          color="#333"
-        />
-
-        <ListDatesViewHeaderText>Janeiro</ListDatesViewHeaderText>
-
-        <MaterialCommunityIcons name="dots-vertical" size={26} color="#333" />
-      </ListDatesViewHeader>
+      <ListDateHeader onChangeMonth={value => setMonth(Number(value))} />
 
       <ListDatesItem>
         <ListDatesDay>
@@ -100,19 +100,20 @@ const ListDates: React.FC = () => {
       </ListDatesItem>
 
       <ListDatesView>
-        {data.map(dateItem => (
-          <ListDatesItem key={dateItem.date}>
+        {dates.map(dateItem => (
+          <ListDatesItem key={dateItem.monthDay}>
             <ListDatesDay>
-              <ListDatesText>{dateItem.date}</ListDatesText>
-              <ListDatesText>{dateItem.weekDay}</ListDatesText>
+              <ListDatesText>{dateItem.monthDay}</ListDatesText>
             </ListDatesDay>
 
             <ListDatesMonth>
-              {dateItem.events.map(event => (
-                <EnventLabel>
-                  <EventLabelText>{event}</EventLabelText>
-                </EnventLabel>
-              ))}
+              {dateItem.events
+                .map(event => (
+                  <EnventLabel>
+                    <EventLabelText>{event.description}</EventLabelText>
+                  </EnventLabel>
+                ))
+                .sort()}
             </ListDatesMonth>
           </ListDatesItem>
         ))}
