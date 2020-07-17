@@ -1,137 +1,54 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { Alert } from 'react-native';
+import React, { useState } from 'react';
+import { Dimensions } from 'react-native';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Header, PageTitle } from './styles';
 
-import { Form } from '@unform/mobile';
-import { FormHandles } from '@unform/core';
+import NewContactDate from './NewContactDate';
+import WithContactDate from './WithContactDate';
 
-import { Container, Header, PageTitle, FormContainer } from './styles';
-
-import Input from '../../components/TextInput';
-import MaskedInput from '../../components/MaskedInput';
-import PickerInput from '../../components/PickerInput';
-import DatePickerInput from '../../components/DatePickerInput/index.android';
-import Button from '../../components/Button';
-
-import api from '../../services/api';
-
-interface Request {
-  name: string;
-  phone_number: string;
-  relationship: string;
-  date: Date;
-  description: string;
+interface Routes {
+  key: string;
+  title: string;
 }
 
 const CreateDate: React.FC = () => {
-  const pickerItems = [
-    {
-      label: 'Pai',
-      value: 'pai',
-    },
-    {
-      label: 'Mãe',
-      value: 'mãe',
-    },
-    {
-      label: 'Avó',
-      value: 'avó',
-    },
-    {
-      label: 'Avô',
-      value: 'avô',
-    },
-    {
-      label: 'Namorada',
-      value: 'namorada',
-    },
-  ];
+  const initilLayout = { width: Dimensions.get('window').width };
 
-  const formRef = useRef<FormHandles>(null);
+  const [indexTab, setIndexTab] = useState(0);
+  const [routes] = useState<Routes[]>([
+    { key: 'first', title: 'Novo contato' },
+    { key: 'second', title: 'Contato existente' },
+  ]);
 
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = useCallback(async (data: Request) => {
-    setLoading(true);
-    const { date, description, name, phone_number, relationship } = data;
-
-    try {
-      const contactResponse = await api.post('/contacts', {
-        name,
-        phone_number,
-        relationship,
-      });
-
-      const { id } = contactResponse.data;
-
-      await api.post('/dates', {
-        contact_id: id,
-        date,
-        description,
-      });
-
-      Alert.alert('Sucesso', 'Evento cadastrado com sucesso');
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      Alert.alert('Erro', 'Não foi possível criar o evento.');
-      setLoading(false);
-    }
-  }, []);
+  const renderScene = SceneMap({
+    first: NewContactDate,
+    second: WithContactDate,
+  });
 
   return (
-    <Container>
+    <>
       <Header>
         <MaterialCommunityIcons name="calendar-month" size={48} color="#fff" />
         <PageTitle>Datas importantes</PageTitle>
       </Header>
-
-      <FormContainer>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input
-            name="name"
-            icon="account"
-            placeholder="Nome do contato"
-            borderColor="#ddd"
+      <TabView
+        renderTabBar={props => (
+          <TabBar
+            {...props}
+            activeColor="#65c4b0"
+            inactiveColor="#ccc"
+            indicatorStyle={{ backgroundColor: '#65c4b0' }}
+            style={{ backgroundColor: '#fff' }}
           />
-          <MaskedInput
-            name="phone_number"
-            icon="cellphone-iphone"
-            borderColor="#ddd"
-            placeholder="Telefone"
-            type="cel-phone"
-          />
-          <PickerInput
-            borderColor="#ddd"
-            name="relationship"
-            placeholder="Selecinone um relacionamento"
-            items={pickerItems}
-            icon="account-heart-outline"
-          />
-
-          <DatePickerInput
-            name="date"
-            borderColor="#ddd"
-            placeholder="Data do evento"
-          />
-
-          <Input
-            name="description"
-            icon="card-text-outline"
-            placeholder="Descrição"
-            borderColor="#ddd"
-          />
-
-          <Button
-            loading={loading}
-            onPress={() => formRef.current?.submitForm()}
-          >
-            Adicionar
-          </Button>
-        </Form>
-      </FormContainer>
-    </Container>
+        )}
+        navigationState={{ index: indexTab, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndexTab}
+        initialLayout={initilLayout}
+      />
+    </>
   );
 };
 

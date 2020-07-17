@@ -6,6 +6,7 @@ import sessionsRouter from './sessions.routes';
 import preferencesRouter from './preferences.routes';
 import contactsRouter from './contacts.routes';
 import datesRouter from './dates.routes';
+import messagesRouter from './messages.routes';
 
 const routes = Router();
 
@@ -15,5 +16,6 @@ routes.use('/sessions', sessionsRouter);
 routes.use('/preferences', preferencesRouter);
 routes.use('/contacts', contactsRouter);
 routes.use('/dates', datesRouter);
+routes.use('/messages', messagesRouter);
 
 export default routes;
