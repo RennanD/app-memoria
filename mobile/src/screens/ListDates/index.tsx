@@ -46,7 +46,20 @@ const ListDates: React.FC = () => {
         },
       });
 
-      setDates(response.data);
+      function sortData(bigger: Events, smaller: Events) {
+        if (bigger.monthDay < smaller.monthDay) {
+          return -1;
+        }
+
+        if (bigger.monthDay > smaller.monthDay) {
+          return 1;
+        }
+        return 0;
+      }
+
+      const data = response.data.sort(sortData);
+
+      setDates(data);
     }
 
     loadDates();
@@ -109,7 +122,7 @@ const ListDates: React.FC = () => {
             <ListDatesMonth>
               {dateItem.events
                 .map(event => (
-                  <EnventLabel>
+                  <EnventLabel key={event.id}>
                     <EventLabelText>{event.description}</EventLabelText>
                   </EnventLabel>
                 ))

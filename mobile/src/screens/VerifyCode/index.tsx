@@ -25,7 +25,7 @@ const VerifyCode: React.FC = () => {
   const { verifyCode, phone_number, requestCode } = useVerification();
   const { navigate } = useNavigation();
 
-  const message = `Enviamos um código de verificação para ${phone_number}. Digite o código recebeido.`;
+  const message = `Enviamos um código de verificação para ${phone_number}. Digite o código recebido.`;
 
   const pressButton = useCallback(async () => {
     setPressed(true);

@@ -2,6 +2,8 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import { Feather } from '@expo/vector-icons';
 
 import {
@@ -41,6 +43,7 @@ const Preferences: React.FC = () => {
     [] as string[],
   );
 
+  const { reset } = useNavigation();
   const { account } = useAuth();
 
   useEffect(() => {
@@ -136,8 +139,12 @@ const Preferences: React.FC = () => {
       );
 
       Alert.alert('Sucesso', response.data.content);
+      reset({
+        routes: [{ name: 'MyPreferences' }],
+        index: 0,
+      });
     }
-  }, [selectItems, account]);
+  }, [selectItems, account.user.id, reset]);
 
   return (
     <Container>

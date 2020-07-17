@@ -65,7 +65,9 @@ const Profile: React.FC = () => {
         </ActionButton>
 
         <ActionButton>
-          <ActionButtonText>Minhas mensagens</ActionButtonText>
+          <ActionButtonText onPress={() => handleNavigate('MessagesRoutes')}>
+            Minhas mensagens
+          </ActionButtonText>
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>
 
