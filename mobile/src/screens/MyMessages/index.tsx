@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -11,16 +11,40 @@ import {
   MessageButtom,
   TextMessageContent,
   ImageMessageContent,
+  EmptyView,
+  EmptyViewText,
 } from './styles';
+
+import api from '../../services/api';
 
 interface Message {
   id: string;
-  message_type: string;
+  message_type: 'file' | 'text';
   message_content: string;
 }
 
 const MyMessages: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([] as Message[]);
+
+  useEffect(() => {
+    async function loadMessages() {
+      const response = await api.get('/messages');
+
+      setMessages(response.data);
+    }
+
+    loadMessages();
+  }, []);
+
+  const textMessages = useMemo(
+    () => messages.filter(message => message.message_type === 'text'),
+    [messages],
+  );
+
+  const fileMessages = useMemo(
+    () => messages.filter(message => message.message_type === 'file'),
+    [messages],
+  );
 
   return (
     <Container>
@@ -30,158 +54,76 @@ const MyMessages: React.FC = () => {
       </Header>
 
       <SectionTitle>Mensagens de texto</SectionTitle>
-      <SectionMessages>
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
+      {textMessages.length ? (
+        <SectionMessages>
+          {textMessages.map(textMessage => (
+            <MessageButtom
+              key={textMessage.id}
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.2,
+                shadowRadius: 1.41,
 
-            elevation: 2,
-          }}
-        >
-          <TextMessageContent>Minha mensagem</TextMessageContent>
-        </MessageButtom>
-
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-
-            elevation: 2,
-          }}
-        >
-          <TextMessageContent>Minha mensagem</TextMessageContent>
-        </MessageButtom>
-
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-
-            elevation: 2,
-          }}
-        >
-          <TextMessageContent>Minha mensagem</TextMessageContent>
-        </MessageButtom>
-
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-
-            elevation: 2,
-          }}
-        >
-          <TextMessageContent>Minha mensagem</TextMessageContent>
-        </MessageButtom>
-      </SectionMessages>
+                elevation: 2,
+              }}
+            >
+              <TextMessageContent numberOfLines={6}>
+                {textMessage.message_content}
+              </TextMessageContent>
+            </MessageButtom>
+          ))}
+        </SectionMessages>
+      ) : (
+        <EmptyView>
+          <MaterialCommunityIcons
+            name="alert-circle-outline"
+            color="#ddd"
+            size={40}
+          />
+          <EmptyViewText>Não há mesnsages de texto cadastradas.</EmptyViewText>
+        </EmptyView>
+      )}
 
       <SectionTitle>Mensagens com imagens</SectionTitle>
-      <SectionMessages>
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
+      {fileMessages.length ? (
+        <SectionMessages>
+          {fileMessages.map(fileMessage => (
+            <MessageButtom
+              key={fileMessage.id}
+              style={{
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.2,
+                shadowRadius: 1.41,
 
-            elevation: 2,
-          }}
-        >
-          <ImageMessageContent
-            source={{
-              uri:
-                'https://static.mensagemaniversario.com.br/img/33/32/pessoas-especiais-como-voce-sm.jpg',
-            }}
+                elevation: 2,
+              }}
+            >
+              <ImageMessageContent
+                source={{ uri: fileMessage.message_content }}
+              />
+            </MessageButtom>
+          ))}
+        </SectionMessages>
+      ) : (
+        <EmptyView>
+          <MaterialCommunityIcons
+            name="alert-circle-outline"
+            color="#ddd"
+            size={40}
           />
-        </MessageButtom>
-
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-
-            elevation: 2,
-          }}
-        >
-          <ImageMessageContent
-            source={{
-              uri:
-                'https://static.mensagemaniversario.com.br/img/33/32/pessoas-especiais-como-voce-sm.jpg',
-            }}
-          />
-        </MessageButtom>
-
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-
-            elevation: 2,
-          }}
-        >
-          <ImageMessageContent
-            source={{
-              uri:
-                'https://static.mensagemaniversario.com.br/img/33/32/pessoas-especiais-como-voce-sm.jpg',
-            }}
-          />
-        </MessageButtom>
-
-        <MessageButtom
-          style={{
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 1.41,
-
-            elevation: 2,
-          }}
-        >
-          <ImageMessageContent
-            source={{
-              uri:
-                'https://static.mensagemaniversario.com.br/img/33/32/pessoas-especiais-como-voce-sm.jpg',
-            }}
-          />
-        </MessageButtom>
-      </SectionMessages>
+          <EmptyViewText>
+            Não há mesnsages com images cadastradas.
+          </EmptyViewText>
+        </EmptyView>
+      )}
     </Container>
   );
 };

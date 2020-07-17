@@ -23,19 +23,21 @@ export const SectionTitle = styled.Text`
   margin-bottom: 10px;
 `;
 
-export const SectionMessages = styled.ScrollView`
+export const SectionMessages = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+})`
   flex: 1;
-  width: 100%;
 `;
 
 export const MessageButtom = styled.TouchableOpacity`
   background: #fff;
   border-radius: 8px;
   height: 150px;
+  width: 200px;
   border: 1px solid #ddd;
-  padding: 5px;
+  padding: 10px;
   align-items: center;
-  justify-content: center;
   margin-right: 10px;
 `;
 
@@ -45,6 +47,19 @@ export const TextMessageContent = styled.Text`
 `;
 
 export const ImageMessageContent = styled.Image`
-  height: 140px;
-  width: 150px;
+  height: 100%;
+  width: 100%;
+`;
+
+export const EmptyView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+`;
+
+export const EmptyViewText = styled.Text`
+  font-size: 20px;
+  color: #ddd;
+  text-align: center;
 `;

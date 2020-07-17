@@ -6,6 +6,8 @@ import PreferencesRoutes from './preferences.routes';
 import DateRoutes from './date.routes';
 import MessagesRoutes from './messages.routes';
 
+import EnviteFriends from '../screens/EnviteFriends';
+
 const AppRoutes: React.FC = () => {
   const { Navigator, Screen } = createStackNavigator();
 
@@ -15,6 +17,7 @@ const AppRoutes: React.FC = () => {
       <Screen name="PreferencesRoutes" component={PreferencesRoutes} />
       <Screen name="DateRoutes" component={DateRoutes} />
       <Screen name="MessagesRoutes" component={MessagesRoutes} />
+      <Screen name="EnviteFriends" component={EnviteFriends} />
     </Navigator>
   );
 };

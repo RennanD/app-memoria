@@ -44,10 +44,10 @@ const Profile: React.FC = () => {
           }}
         />
 
-        <ActionButton>
+        {/* <ActionButton>
           <ActionButtonText>Editar perfil</ActionButtonText>
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
-        </ActionButton>
+        </ActionButton> */}
 
         <ActionButton onPress={() => handleNavigate('PreferencesRoutes')}>
           <ActionButtonText>Gostos e preferências</ActionButtonText>
@@ -59,7 +59,7 @@ const Profile: React.FC = () => {
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>
 
-        <ActionButton>
+        <ActionButton onPress={() => handleNavigate('EnviteFriends')}>
           <ActionButtonText>Convide pessoas</ActionButtonText>
           <MaterialCommunityIcons name="chevron-right" size={24} color="#FFF" />
         </ActionButton>
