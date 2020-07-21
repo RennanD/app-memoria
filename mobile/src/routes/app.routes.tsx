@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Profile from '../screens/Profile';
+import Menu from '../screens/Menu';
 import PreferencesRoutes from './preferences.routes';
 import DateRoutes from './date.routes';
 import MessagesRoutes from './messages.routes';
@@ -13,7 +13,7 @@ const AppRoutes: React.FC = () => {
 
   return (
     <Navigator headerMode="none">
-      <Screen name="Profile" component={Profile} />
+      <Screen name="Menu" component={Menu} />
       <Screen name="PreferencesRoutes" component={PreferencesRoutes} />
       <Screen name="DateRoutes" component={DateRoutes} />
       <Screen name="MessagesRoutes" component={MessagesRoutes} />

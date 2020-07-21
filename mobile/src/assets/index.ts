@@ -3,4 +3,24 @@ import user from './icons/user.png';
 import logo from './images/logo.png';
 import cellphone from './images/cellphone.png';
 
-export { lock, user, logo, cellphone };
+import Heart from './icons/heart.svg';
+import Calendar from './icons/calendar.svg';
+import Envite from './icons/follow.svg';
+import Gift from './icons/gift.svg';
+import Messages from './icons/letter.svg';
+import Notfications from './icons/notification.svg';
+import Preferences from './icons/preferences.svg';
+
+export {
+  lock,
+  user,
+  logo,
+  cellphone,
+  Heart,
+  Calendar,
+  Envite,
+  Gift,
+  Messages,
+  Notfications,
+  Preferences,
+};

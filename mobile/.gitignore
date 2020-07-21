@@ -8,6 +8,8 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-
+bkp/
 # macOS
 .DS_Store
+
+*-error.log
