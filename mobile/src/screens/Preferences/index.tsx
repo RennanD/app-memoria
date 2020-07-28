@@ -14,6 +14,7 @@ import {
   SubmitButton,
   SubmitButtonText,
 } from './styles';
+import boxShadownEffect from '../../styles/boxShadow';
 
 import Accordion from '../../components/Accordion';
 
@@ -166,20 +167,7 @@ const Preferences: React.FC = () => {
         ))}
       </PreferencesContainer>
 
-      <SubmitButton
-        onPress={handleSubmit}
-        style={{
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 1,
-          },
-          shadowOpacity: 0.2,
-          shadowRadius: 1.41,
-
-          elevation: 2,
-        }}
-      >
+      <SubmitButton onPress={handleSubmit} style={boxShadownEffect}>
         <SubmitButtonText>Adicionar</SubmitButtonText>
       </SubmitButton>
     </Container>

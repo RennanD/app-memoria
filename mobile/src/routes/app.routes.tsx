@@ -5,6 +5,7 @@ import Menu from '../screens/Menu';
 import PreferencesRoutes from './preferences.routes';
 import DateRoutes from './date.routes';
 import MessagesRoutes from './messages.routes';
+import Notifications from '../screens/Notifications';
 
 import EnviteFriends from '../screens/EnviteFriends';
 
@@ -18,6 +19,7 @@ const AppRoutes: React.FC = () => {
       <Screen name="DateRoutes" component={DateRoutes} />
       <Screen name="MessagesRoutes" component={MessagesRoutes} />
       <Screen name="EnviteFriends" component={EnviteFriends} />
+      <Screen name="Notifications" component={Notifications} />
     </Navigator>
   );
 };

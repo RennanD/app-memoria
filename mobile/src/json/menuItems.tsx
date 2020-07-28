@@ -18,7 +18,7 @@ const items = [
   {
     title: 'Datas importantes',
     icon: <Calendar height="40" width="40" />,
-    route: 'DatesRoutes',
+    route: 'DateRoutes',
   },
   {
     title: 'Presentes',
@@ -33,7 +33,7 @@ const items = [
   {
     title: 'Notificações',
     icon: <Notfications height="40" width="40" />,
-    route: '',
+    route: 'Notifications',
   },
   {
     title: 'Convide seus amigos',

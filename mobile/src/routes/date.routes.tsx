@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import CreateDate from '../screens/CreateDate';
 import ListDates from '../screens/ListDates';
 
-const PreferencesRoutes: React.FC = () => {
+const DateRoutes: React.FC = () => {
   const Tab = createBottomTabNavigator();
 
   return (
@@ -48,4 +48,4 @@ const PreferencesRoutes: React.FC = () => {
   );
 };
 
-export default PreferencesRoutes;
+export default DateRoutes;

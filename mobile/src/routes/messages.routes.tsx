@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import MyMessages from '../screens/MyMessages';
 
-const PreferencesRoutes: React.FC = () => {
+const MessagesRoutes: React.FC = () => {
   const Tab = createBottomTabNavigator();
 
   return (
@@ -33,4 +33,4 @@ const PreferencesRoutes: React.FC = () => {
   );
 };
 
-export default PreferencesRoutes;
+export default MessagesRoutes;
