@@ -116,6 +116,11 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
                 { label: '11hrs', value: '0 11' },
                 { label: '14hrs', value: '0 14' },
                 { label: '15hrs', value: '0 15' },
+                { label: '16hrs', value: '0 16' },
+                { label: '17hrs', value: '0 17' },
+                { label: '18hrs', value: '0 18' },
+                { label: '19hrs', value: '0 19' },
+                { label: '20hrs', value: '0 20' },
               ]}
             />
 

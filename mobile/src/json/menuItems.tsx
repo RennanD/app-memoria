@@ -7,6 +7,8 @@ import {
   Gift,
   Notfications,
   Messages,
+  Conatcts,
+  Profile,
 } from '../assets';
 
 const items = [
@@ -39,6 +41,16 @@ const items = [
     title: 'Convide seus amigos',
     icon: <Envite height="40" width="40" />,
     route: 'EnviteFriends',
+  },
+  {
+    title: 'Contatos',
+    icon: <Conatcts height="40" width="40" />,
+    route: '',
+  },
+  {
+    title: 'Meu Perfil',
+    icon: <Profile height="40" width="40" />,
+    route: '',
   },
 ];
 

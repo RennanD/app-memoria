@@ -6,7 +6,7 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-  height: 200px;
+  height: 150px;
   background: #65c4b0;
   padding: 20px 30px;
   align-items: center;

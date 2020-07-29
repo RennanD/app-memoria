@@ -85,7 +85,7 @@ const Register: React.FC = () => {
 
       <Form
         ref={formRef}
-        initialData={{ phone_number: '+5586995172761' }}
+        initialData={{ phone_number }}
         onSubmit={handleSubmit}
       >
         <Input
@@ -144,9 +144,18 @@ const Register: React.FC = () => {
           onSubmitEditing={() => genderRef.current?.focus()}
         />
 
-        <DatePickerInput name="birthday" />
+        <DatePickerInput name="birthday" placeholder="Data de nascimento" />
 
-        <PickerInput name="gender" />
+        <PickerInput
+          name="gender"
+          icon="gender"
+          placeholder="Selecione um gênero"
+          items={[
+            { label: 'Masculino', value: 'masculino' },
+            { label: 'Feminino', value: 'feminino' },
+            { label: 'Outro', value: 'outro' },
+          ]}
+        />
 
         <MaskedInput
           icon="mailbox-outline"

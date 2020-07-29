@@ -22,7 +22,7 @@ app.use('/admin', adminRoutes);
 
 app.use(appErrors);
 
-cron.schedule('29 13 28 * *', async () => {
+cron.schedule('49 18 * * *', async () => {
   console.log('hora da verdade');
   await getReminders();
 });
