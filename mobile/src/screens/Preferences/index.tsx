@@ -4,8 +4,6 @@ import { Alert } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 
-import { Feather } from '@expo/vector-icons';
-
 import {
   Container,
   Header,
@@ -150,8 +148,9 @@ const Preferences: React.FC = () => {
   return (
     <Container>
       <Header>
-        <Feather name="heart" color="#25A182" size={100} />
-        <PageTitle>Gostos e preferências</PageTitle>
+        <PageTitle>
+          Escolha aqui suas preferências e seu gostos pessoais
+        </PageTitle>
       </Header>
       <PreferencesContainer>
         {preferencesItems.map(preference => (

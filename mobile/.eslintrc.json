@@ -30,6 +30,7 @@
   ],
   "rules": {
     "arrow-parens": "off",
+    "no-underscore-dangle": "off",
     "object-curly-newline": "off",
     "react/jsx-props-no-spreading": "off",
     "prettier/prettier": "error",

@@ -1,15 +1,11 @@
 /* eslint-disable max-len */
 /* eslint-disable prettier/prettier */
-import React, { useCallback, useMemo, useEffect, useState, useRef } from 'react';
-import Constants from 'expo-constants';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
-import { FlatList, Alert } from 'react-native';
+import React, { useCallback, useMemo, useEffect } from 'react';
+import { FlatList } from 'react-native';
 import socketio from 'socket.io-client';
 import { useNavigation } from '@react-navigation/native';
-import fetch from 'node-fetch';
 
-import { useAuth } from '../../hooks';
+import { useAuth, useNotification } from '../../hooks';
 
 import {
   Container,
@@ -18,19 +14,25 @@ import {
   Header,
   CardItemTitle,
   Avatar,
+  Badge,
+  BadgeText,
   PageTitle,
 } from './styles';
 import boxShadowEffect from '../../styles/boxShadow';
 
 import menuItems from '../../json/menuItems';
 
+interface Notification {
+  _id: string;
+  date: string;
+  parsed_date: string;
+  notification_message: string;
+}
+
 const Menu: React.FC = () => {
   const { navigate } = useNavigation();
   const { account } = useAuth();
-  const notificationListener = useRef<any>(null);
-  const responseListener = useRef<any>(null);
-
-  const [expoPushToken, setExpoPushToken] = useState('');
+  const { emitiNotification, numberOfNotifications } = useNotification();
 
   const socket = useMemo(() => socketio('http://192.168.25.9:3333', {
     query: {
@@ -39,61 +41,13 @@ const Menu: React.FC = () => {
   }), [account.user.id]);
 
   useEffect(() => {
-    async function registerTokenNotification():Promise<string | undefined> {
-      if (Constants.isDevice) {
-        const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-          const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-          finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-          Alert.alert('Failed to get push token for push notification!');
-          return;
-        }
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
-        setExpoPushToken(token);
-      } else {
-        Alert.alert('Must use physical device for Push Notifications');
-      }
-    }
-
-    registerTokenNotification();
-
-    notificationListener.current = Notifications
-      .addNotificationReceivedListener(notification => {
-        console.log(notification);
-      });
-
-    responseListener.current = Notifications
-      .addNotificationResponseReceivedListener(response => {
-        console.log(response);
-      });
-  });
-
-  useEffect(() => {
-    socket.on('notification', async (notification: any) => {
-      console.log(notification);
-
-      const message = {
-        to: expoPushToken,
-        sound: 'default',
-        title: 'Lembrete',
-        body: notification.notification_message,
-        data: { data: 'goes here' },
-      };
-
-      await fetch('https://exp.host/--/api/v2/push/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Accept-encoding': 'gzip, deflate',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(message),
+    socket.on('notification', async (notification: Notification) => {
+      await emitiNotification({
+        ...notification,
+        ready: false,
       });
     });
-  }, [expoPushToken, socket]);
+  }, [emitiNotification, socket]);
 
   const handleNavigate = useCallback(
     route => {
@@ -131,6 +85,13 @@ const Menu: React.FC = () => {
               onPress={() => handleNavigate(item.route)}
               style={boxShadowEffect}
             >
+              {item.title === 'Notificações'
+                && numberOfNotifications > 0
+                && (
+                <Badge>
+                  <BadgeText>{numberOfNotifications}</BadgeText>
+                </Badge>
+                )}
               {item.icon}
               <CardItemTitle>{item.title}</CardItemTitle>
             </CardItem>

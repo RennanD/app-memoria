@@ -16,6 +16,7 @@ export const PageTitle = styled.Text`
   color: #25a182;
   font-weight: 600;
   margin-top: 4px;
+  text-align: center;
 `;
 
 export const PreferencesContainer = styled.ScrollView.attrs({

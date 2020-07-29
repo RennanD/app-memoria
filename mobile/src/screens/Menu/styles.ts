@@ -55,3 +55,20 @@ export const CardItemTitle = styled.Text`
   text-align: center;
   font-weight: 600;
 `;
+
+export const Badge = styled.View`
+  padding: 3px 7px;
+  border-radius: 15px;
+  top: -9px;
+  right: -8px;
+  align-items: center;
+  justify-content: center;
+  background: #c53030;
+  position: absolute;
+  border: 2px solid #fff;
+`;
+
+export const BadgeText = styled.Text`
+  font-size: 12px;
+  color: #fff;
+`;
