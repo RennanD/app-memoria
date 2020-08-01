@@ -79,6 +79,7 @@ const Menu: React.FC = () => {
         <FlatList
           data={menuItems}
           keyExtractor={item => item.title}
+          showsVerticalScrollIndicator={false}
           numColumns={2}
           renderItem={({ item }) => (
             <CardItem

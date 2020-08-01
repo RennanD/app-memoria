@@ -5,7 +5,6 @@ import ImportantDate from '../models/ImportantDate';
 interface Request {
   user_id: string;
   month: number;
-  day: number;
 }
 
 interface Events extends ImportantDate {

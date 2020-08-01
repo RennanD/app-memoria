@@ -17,10 +17,7 @@ datesRouter.get('/:date_id', async (request, response) => {
 
   const date_id = request.params.date_id as string;
 
-  const user_id = request.user.id;
-
   const date = await showDate.execute({
-    user_id,
     date_id,
   });
 

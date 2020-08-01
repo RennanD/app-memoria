@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { useNavigation } from '@react-navigation/native';
+
 import {
   Container,
   Header,
@@ -17,7 +19,6 @@ import {
 } from './styles';
 
 import ListDateHeader from '../../components/ListDateHeader';
-import ReminderModal from '../../components/ReminderModal';
 
 import api from '../../services/api';
 
@@ -38,18 +39,14 @@ interface ImportantDates {
 const ListDates: React.FC = () => {
   const [dates, setDates] = useState<ImportantDates[]>([] as ImportantDates[]);
   const [month, setMonth] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = useCallback(() => {
-    setShowModal(state => !state);
-  }, []);
+
+  const { navigate } = useNavigation();
 
   const handleShowDate = useCallback(
-    (eventDate: Date) => {
-      toggleModal();
-      setSelectedDate(eventDate);
+    (eventId: string) => {
+      navigate('ReminderDetail', { important_date_id: eventId });
     },
-    [toggleModal],
+    [navigate],
   );
 
   useEffect(() => {
@@ -108,58 +105,47 @@ const ListDates: React.FC = () => {
   }
 
   return (
-    <>
-      <Container>
-        <Header>
-          <MaterialCommunityIcons
-            name="calendar-month"
-            size={48}
-            color="#fff"
-          />
-          <PageTitle>Datas importantes</PageTitle>
-        </Header>
+    <Container>
+      <Header>
+        <MaterialCommunityIcons name="calendar-month" size={48} color="#fff" />
+        <PageTitle>Datas importantes</PageTitle>
+      </Header>
 
-        <ListDateHeader onChangeMonth={value => setMonth(Number(value))} />
+      <ListDateHeader onChangeMonth={value => setMonth(Number(value))} />
 
-        <ListDatesItem>
-          <ListDatesDay>
-            <ListDatesText>Dia</ListDatesText>
-          </ListDatesDay>
+      <ListDatesItem>
+        <ListDatesDay>
+          <ListDatesText>Dia</ListDatesText>
+        </ListDatesDay>
 
-          <ListDatesMonth>
-            <ListDatesText>Eventos</ListDatesText>
-          </ListDatesMonth>
-        </ListDatesItem>
+        <ListDatesMonth>
+          <ListDatesText>Eventos</ListDatesText>
+        </ListDatesMonth>
+      </ListDatesItem>
 
-        <ListDatesView>
-          {dates.map(dateItem => (
-            <ListDatesItem key={dateItem.monthDay}>
-              <ListDatesDay>
-                <ListDatesText>{dateItem.monthDay}</ListDatesText>
-              </ListDatesDay>
+      <ListDatesView>
+        {dates.map(dateItem => (
+          <ListDatesItem key={dateItem.monthDay}>
+            <ListDatesDay>
+              <ListDatesText>{dateItem.monthDay}</ListDatesText>
+            </ListDatesDay>
 
-              <ListDatesMonth>
-                {dateItem.events
-                  .map(event => (
-                    <EnventLabel
-                      key={event.id}
-                      onPress={() => handleShowDate(event.date)}
-                    >
-                      <EventLabelText>{event.description}</EventLabelText>
-                    </EnventLabel>
-                  ))
-                  .sort()}
-              </ListDatesMonth>
-            </ListDatesItem>
-          ))}
-        </ListDatesView>
-      </Container>
-      <ReminderModal
-        isVisible={showModal}
-        toggleModal={toggleModal}
-        dateReminder={selectedDate}
-      />
-    </>
+            <ListDatesMonth>
+              {dateItem.events
+                .map(event => (
+                  <EnventLabel
+                    key={event.id}
+                    onPress={() => handleShowDate(event.id)}
+                  >
+                    <EventLabelText>{event.description}</EventLabelText>
+                  </EnventLabel>
+                ))
+                .sort()}
+            </ListDatesMonth>
+          </ListDatesItem>
+        ))}
+      </ListDatesView>
+    </Container>
   );
 };
 

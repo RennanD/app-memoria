@@ -6,7 +6,6 @@ import AppError from '../../../errors/AppError';
 
 interface Request {
   date_id: string;
-  user_id: string;
 }
 
 interface Response {
@@ -24,7 +23,7 @@ interface Response {
 }
 
 class ShowOnlyDateService {
-  public async execute({ user_id, date_id }: Request): Promise<Response> {
+  public async execute({ date_id }: Request): Promise<Response> {
     const dateRepository = getRepository(ImportantDate);
 
     const date = await dateRepository.findOne({
@@ -35,10 +34,6 @@ class ShowOnlyDateService {
 
     if (!date) {
       throw new AppError('Resgistro não encontrado.');
-    }
-
-    if (date.user_id !== user_id) {
-      throw new AppError('Você não pode acessar esse registro', 401);
     }
 
     return {

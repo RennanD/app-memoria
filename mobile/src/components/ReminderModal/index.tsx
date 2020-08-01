@@ -23,6 +23,8 @@ import api from '../../services/api';
 interface ReminderModalProps {
   dateReminder: Date;
   isVisible: boolean;
+  important_date_id: string;
+  title: string;
   toggleModal(): void;
 }
 
@@ -36,6 +38,8 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
   dateReminder,
   isVisible,
   toggleModal,
+  important_date_id,
+  title,
 }) => {
   const formRef = useRef<FormHandles>(null);
 
@@ -52,7 +56,10 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
 
       try {
         await api.post('/reminders', {
+          important_date_id,
           notification_message: data.notification_message,
+          title,
+          reminderDate: subDaysReminder,
           parsed_date: stringDate,
           date: `${data.hour} ${getDay} ${getMonth}`,
         });
@@ -63,7 +70,7 @@ const ReminderModal: React.FC<ReminderModalProps> = ({
         Alert.alert('Erro', 'Não foi possível adicionar o lembrete');
       }
     },
-    [dateReminder, toggleModal],
+    [dateReminder, important_date_id, title, toggleModal],
   );
 
   return (

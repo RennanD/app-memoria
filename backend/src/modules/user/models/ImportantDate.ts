@@ -18,6 +18,7 @@ class ImportantDate {
   @ManyToOne(() => Contact, contact => contact.id, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
+    eager: true,
   })
   @JoinColumn({ name: 'contact_id' })
   contact: Contact;
