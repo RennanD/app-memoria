@@ -1,22 +1,10 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})`
   flex: 1;
   background: #fff;
-`;
-
-export const Header = styled.View`
-  height: 120px;
-  padding: 15px;
-  flex-direction: row;
-  align-items: center;
-`;
-
-export const PageTitle = styled.Text`
-  font-size: 28px;
-  color: #25a182;
-  margin: 15px 0;
-  margin-left: 15px;
 `;
 
 export const ListDatesView = styled.ScrollView.attrs({

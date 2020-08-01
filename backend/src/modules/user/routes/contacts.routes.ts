@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import CreateContactService from '../services/CreateContactService';
-import ListContactDatesService from '../services/ListContactDatesService';
+import ShowOnlyContactService from '../services/ShowOnlyContactService';
 import EditContactService from '../services/EditContactService';
 import DeleteContactService from '../services/DeleteContactService';
 import ListContactUserService from '../services/ListContactUserService';
@@ -25,15 +25,15 @@ contactsRouter.get('/', async (request, response) => {
 });
 
 contactsRouter.get('/:contact_id', async (request, response) => {
-  const listDates = new ListContactDatesService();
+  const showContact = new ShowOnlyContactService();
 
   const contact_id = request.params.contact_id as string;
 
-  const dates = await listDates.execute({
+  const contact = await showContact.execute({
     contact_id,
   });
 
-  return response.json(dates);
+  return response.json(contact);
 });
 
 contactsRouter.post('/', async (request, response) => {

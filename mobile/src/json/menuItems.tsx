@@ -7,7 +7,7 @@ import {
   Gift,
   Notfications,
   Messages,
-  Conatcts,
+  Contacts,
   Profile,
 } from '../assets';
 
@@ -44,8 +44,8 @@ const items = [
   },
   {
     title: 'Contatos',
-    icon: <Conatcts height="40" width="40" />,
-    route: '',
+    icon: <Contacts height="40" width="40" />,
+    route: 'Contacts',
   },
   {
     title: 'Meu Perfil',

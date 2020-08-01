@@ -10,7 +10,7 @@ import Gift from './icons/gift.svg';
 import Messages from './icons/letter.svg';
 import Notfications from './icons/notification.svg';
 import Preferences from './icons/preferences.svg';
-import Conatcts from './icons/agenda.svg';
+import Contacts from './icons/agenda.svg';
 import Profile from './icons/user.svg';
 
 export {
@@ -25,6 +25,6 @@ export {
   Messages,
   Notfications,
   Preferences,
-  Conatcts,
+  Contacts,
   Profile,
 };

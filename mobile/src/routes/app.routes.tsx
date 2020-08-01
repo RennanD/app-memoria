@@ -9,6 +9,7 @@ import Notifications from '../screens/Notifications';
 
 import EnviteFriends from '../screens/EnviteFriends';
 import ReminderDetail from '../screens/ReminderDetail';
+import Contacts from '../screens/Contacts';
 
 const AppRoutes: React.FC = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -22,6 +23,7 @@ const AppRoutes: React.FC = () => {
       <Screen name="EnviteFriends" component={EnviteFriends} />
       <Screen name="Notifications" component={Notifications} />
       <Screen name="ReminderDetail" component={ReminderDetail} />
+      <Screen name="Contacts" component={Contacts} />
     </Navigator>
   );
 };
