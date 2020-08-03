@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
 
 import {
   Container,
@@ -25,6 +27,15 @@ interface Contact {
 const Contacts: React.FC = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoagind] = useState(false);
+
+  const { navigate } = useNavigation();
+
+  const handleShowContact = useCallback(
+    contact_id => {
+      navigate('ContactDetail', { contact_id });
+    },
+    [navigate],
+  );
 
   useEffect(() => {
     async function loadContacts() {
@@ -53,7 +64,7 @@ const Contacts: React.FC = () => {
           showsVerticalScrollIndicator={false}
           keyExtractor={contact => contact.id}
           renderItem={({ item: contact }) => (
-            <ContactCard>
+            <ContactCard onPress={() => handleShowContact(contact.id)}>
               <ContactAvatar
                 source={{
                   uri: contact.avatar

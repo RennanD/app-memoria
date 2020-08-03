@@ -15,7 +15,7 @@ import api from '../services/api';
 
 interface VerificationContextData {
   phone_number: string;
-  verified: string;
+  verified: string | undefined;
   requestCode(phone_number: string): Promise<void>;
   verifyCode(phone_number: string, code: string): Promise<void>;
   cancelVerify(): Promise<void>;
@@ -26,15 +26,14 @@ const VerificationContext = createContext<VerificationContextData>(
 );
 
 export const VerifcationProvider: React.FC = ({ children }) => {
-  const [phone, setPhone] = useState<string>('');
-  const [verified, setVerified] = useState<string>('');
-
   const { account } = useAuth();
+
+  const [phone, setPhone] = useState<string>('');
+  const [verified, setVerified] = useState<string>();
 
   useEffect(() => {
     async function loadPhone(): Promise<void> {
       const verified_phone = await AsyncStorage.getItem('@memoria:verified');
-
       if (verified_phone) {
         setVerified(verified_phone);
       }

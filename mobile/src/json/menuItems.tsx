@@ -50,7 +50,7 @@ const items = [
   {
     title: 'Meu Perfil',
     icon: <Profile height="40" width="40" />,
-    route: '',
+    route: 'Profile',
   },
 ];
 

@@ -8,7 +8,7 @@ import ptbr from 'date-fns/locale/pt-BR';
 
 import { Calendar } from 'react-native-calendars';
 
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import {
   Container,
@@ -72,6 +72,8 @@ const ReminderDetail: React.FC = () => {
   );
   const [reminders, setReminders] = useState<Reminder[]>([]);
 
+  const { navigate } = useNavigation();
+
   const toggleModal = useCallback(() => {
     setIsVisible(state => !state);
   }, []);
@@ -117,76 +119,86 @@ const ReminderDetail: React.FC = () => {
     loadReminders();
   }, [importantDate.id]);
 
+  const handleShowContact = useCallback(
+    contact_id => {
+      navigate('ContactDetail', { contact_id });
+    },
+    [navigate],
+  );
+
   return (
-    <Container>
-      {!calendarLoading && importantDate.contact ? (
-        <>
-          <Calendar
-            monthFormat="MMM yyyy"
-            hideArrows={false}
-            current={current}
-            markedDates={{
-              [current]: { selected: true, selectedColor: '#65c4b0' },
-            }}
-            disableArrowLeft
-            disableArrowRight
-          />
-          <ListDatesTitle>Conato</ListDatesTitle>
-          <ContactView>
-            <Avatar
-              source={{
-                uri:
-                  importantDate.contact && importantDate.contact.avatar
-                    ? importantDate.contact.avatar
-                    : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+    <>
+      <Container>
+        {!calendarLoading && importantDate.contact ? (
+          <>
+            <Calendar
+              monthFormat="MMM yyyy"
+              hideArrows={false}
+              current={current}
+              markedDates={{
+                [current]: { selected: true, selectedColor: '#65c4b0' },
               }}
+              disableArrowLeft
+              disableArrowRight
             />
+            <ListDatesTitle>Conato</ListDatesTitle>
+            <ContactView>
+              <Avatar
+                source={{
+                  uri:
+                    importantDate.contact && importantDate.contact.avatar
+                      ? importantDate.contact.avatar
+                      : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+                }}
+              />
 
-            <View style={{ marginLeft: 10 }}>
-              <TouchableOpacity>
-                <ContactName>{importantDate?.contact.name}</ContactName>
-              </TouchableOpacity>
-              <DateDescription>{importantDate?.description}</DateDescription>
-            </View>
-          </ContactView>
+              <View style={{ marginLeft: 10 }}>
+                <TouchableOpacity
+                  onPress={() => handleShowContact(importantDate?.contact.id)}
+                >
+                  <ContactName>{importantDate?.contact.name}</ContactName>
+                </TouchableOpacity>
+                <DateDescription>{importantDate?.description}</DateDescription>
+              </View>
+            </ContactView>
 
-          <ListDatesTitle>Lembretes</ListDatesTitle>
-        </>
-      ) : (
-        <CalendarPlaceholder />
-      )}
-      <ListDatesView>
-        {reminders.length > 0 ? (
-          reminders.map(reminder => (
-            <EnventLabel key={reminder._id} style={boxShadowEffect}>
-              <EventLabelText>{reminder.title}</EventLabelText>
-              <EventLabelDate>
-                {`Data do lembrete: ${reminder.formattedDate} `}
-              </EventLabelDate>
-            </EnventLabel>
-          ))
+            <ListDatesTitle>Lembretes</ListDatesTitle>
+          </>
         ) : (
-          <EmptyView>
-            <Feather name="calendar" size={28} color="#ddd" />
-            <EmptyViewText>Não há lembretes para esta data</EmptyViewText>
-          </EmptyView>
+          <CalendarPlaceholder />
         )}
-      </ListDatesView>
+        <ListDatesView>
+          {reminders.length > 0 ? (
+            reminders.map(reminder => (
+              <EnventLabel key={reminder._id} style={boxShadowEffect}>
+                <EventLabelText>{reminder.title}</EventLabelText>
+                <EventLabelDate>
+                  {`Data do lembrete: ${reminder.formattedDate} `}
+                </EventLabelDate>
+              </EnventLabel>
+            ))
+          ) : (
+            <EmptyView>
+              <Feather name="calendar" size={28} color="#ddd" />
+              <EmptyViewText>Não há lembretes para esta data</EmptyViewText>
+            </EmptyView>
+          )}
+        </ListDatesView>
 
+        {importantDate && (
+          <ReminderModal
+            isVisible={isVisible}
+            title={importantDate.description}
+            important_date_id={importantDate.id}
+            toggleModal={toggleModal}
+            dateReminder={importantDate.date}
+          />
+        )}
+      </Container>
       <FloatButton onPress={toggleModal} style={boxShadowEffect}>
         <Feather name="plus" color="#fff" size={24} />
       </FloatButton>
-
-      {importantDate && (
-        <ReminderModal
-          isVisible={isVisible}
-          title={importantDate.description}
-          important_date_id={importantDate.id}
-          toggleModal={toggleModal}
-          dateReminder={importantDate.date}
-        />
-      )}
-    </Container>
+    </>
   );
 };
 

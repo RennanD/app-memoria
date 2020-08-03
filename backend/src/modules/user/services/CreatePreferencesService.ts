@@ -44,7 +44,7 @@ class CreatePreferencesService {
       }
     }
 
-    const preferencesDatabase = await Preferences.find();
+    const preferencesDatabase = await Preferences.find({ person_id });
 
     const preferencesDatabaseCategory = preferencesDatabase.map(
       preference => preference.category,
@@ -61,6 +61,7 @@ class CreatePreferencesService {
     existentPreferences.map(async updatedPreference => {
       const findPreference = await Preferences.findOne({
         category: updatedPreference.category,
+        person_id,
       });
 
       const newSubcategories = updatedPreference.subcategories.filter(

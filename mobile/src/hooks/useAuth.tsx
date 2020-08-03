@@ -20,11 +20,16 @@ interface SingInCredencials {
   password: string;
 }
 
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  birthday: Date;
+}
+
 interface Account {
-  user: {
-    id: string;
-    isVerified: boolean;
-  };
+  has_verified: boolean;
+  user: User;
 }
 
 interface AuthState {

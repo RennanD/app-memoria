@@ -18,8 +18,8 @@ preferencesRouter.get('/list', async (request, response) => {
   return response.json(preferences);
 });
 
-preferencesRouter.get('/person', async (request, response) => {
-  const person_id = request.user.id;
+preferencesRouter.get('/person/:person_id', async (request, response) => {
+  const person_id = request.params.person_id as string;
 
   const listPreferences = new ListPersonPreferencesService();
 
