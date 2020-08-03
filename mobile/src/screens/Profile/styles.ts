@@ -68,14 +68,17 @@ export const PreferencesAccordionList = styled.ScrollView.attrs({
   flex: 1;
 `;
 
-export const FloatButton = styled.TouchableOpacity`
-  height: 60px;
-  width: 60px;
-  background: #65c4b0;
+export const SignOutButton = styled.TouchableOpacity`
+  margin-top: 10px;
+  padding: 10px;
   align-items: center;
   justify-content: center;
-  border-radius: 30px;
-  right: 20px;
-  bottom: 20px;
-  position: absolute;
+  flex-direction: row;
+  height: 40px;
+`;
+
+export const SignOutButtonText = styled.Text`
+  font-size: 20px;
+  margin-right: 10px;
+  color: #c53030;
 `;

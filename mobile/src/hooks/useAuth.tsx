@@ -24,7 +24,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  birthday: Date;
+  birthday: string;
 }
 
 interface Account {

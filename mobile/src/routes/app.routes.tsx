@@ -10,7 +10,8 @@ import EnviteFriends from '../screens/EnviteFriends';
 import ReminderDetail from '../screens/ReminderDetail';
 import Contacts from '../screens/Contacts';
 import ContactDetail from '../screens/ContactDetail';
-import Preferences from '../screens/MyPreferences';
+import Preferences from '../screens/Preferences';
+import ContactsPreferences from '../screens/ContactsPreferences';
 import Profile from '../screens/Profile';
 
 const AppRoutes: React.FC = () => {
@@ -28,6 +29,7 @@ const AppRoutes: React.FC = () => {
       <Screen name="Contacts" component={Contacts} />
       <Screen name="ContactDetail" component={ContactDetail} />
       <Screen name="Profile" component={Profile} />
+      <Screen name="ContactsPreferences" component={ContactsPreferences} />
     </Navigator>
   );
 };

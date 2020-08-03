@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { Feather } from '@expo/vector-icons';
 
@@ -53,6 +53,7 @@ const ContactDetail: React.FC = () => {
   const [activeItem, setActiveItem] = useState('');
 
   const { params } = useRoute<RouteProps>();
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     async function loadContatc() {
@@ -74,6 +75,10 @@ const ContactDetail: React.FC = () => {
     },
     [activeItem],
   );
+
+  const handleAddPreference = useCallback(() => {
+    navigate('ContactsPreferences', { contact_id: contact.id });
+  }, [contact.id, navigate]);
 
   useEffect(() => {
     async function loadPreferences() {
@@ -126,7 +131,7 @@ const ContactDetail: React.FC = () => {
           ))}
         </PreferencesAccordionList>
       </Container>
-      <FloatButton>
+      <FloatButton onPress={handleAddPreference}>
         <Feather name="plus" color="#fff" size={24} />
       </FloatButton>
     </>
