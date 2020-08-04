@@ -48,7 +48,7 @@ const ContactsPreferences: React.FC = () => {
     [] as string[],
   );
 
-  const { goBack } = useNavigation();
+  const { navigate } = useNavigation();
   const { params } = useRoute<RouteProps>();
 
   useEffect(() => {
@@ -144,9 +144,9 @@ const ContactsPreferences: React.FC = () => {
       );
 
       Alert.alert('Sucesso', response.data.content);
-      goBack();
+      navigate('ContactDetail', { contact_id: params.contact_id });
     }
-  }, [selectItems, params.contact_id, goBack]);
+  }, [selectItems, params.contact_id, navigate]);
 
   return (
     <Container>

@@ -12,9 +12,6 @@ class Message {
   id: string;
 
   @Column()
-  user_id: string;
-
-  @Column()
   message_type: string;
 
   @Column()

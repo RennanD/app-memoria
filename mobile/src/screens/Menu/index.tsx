@@ -65,12 +65,14 @@ const Menu: React.FC = () => {
         <PageTitle>
           Bem vindo,
           {'\n'}
-          Rennan Douglas!
+          {account.user.name}
         </PageTitle>
         <Avatar
           source={{
             uri:
-              'https://lh3.googleusercontent.com/a-/AOh14GhxZSS12uOuowuxuIq-MttC2AHQP-Q1jX9TESgui-s=s96-c-rg-br100',
+              account.user.avatar
+                ? account.user.avatar
+                : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
           }}
         />
       </Header>

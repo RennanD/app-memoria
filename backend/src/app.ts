@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import express from 'express';
 import 'express-async-errors';
 import cron from 'node-cron';
+import { resolve } from 'path';
 
 import './database';
 import './database/mongoConnect';
@@ -21,6 +22,8 @@ app.use(userRoutes);
 app.use('/admin', adminRoutes);
 
 app.use(appErrors);
+
+app.use('/files', express.static(resolve(__dirname, '..', 'tmp')));
 
 cron.schedule('9 19 * * *', async () => {
   console.log('hora da verdade');

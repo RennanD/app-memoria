@@ -15,6 +15,10 @@ interface Request {
   password: string;
 }
 
+interface SerialiazedAccount extends Account {
+  avatar_url: string | undefined;
+}
+
 interface Session {
   token: string;
   account: Account;
@@ -61,6 +65,10 @@ class AuthenticateUserService {
       subject: userExists.id,
       expiresIn,
     });
+
+    checkAccount.user.avatar = checkAccount.user.avatar
+      ? `http://192.168.25.9:3333/files/${checkAccount.user.avatar}`
+      : '';
 
     return {
       account: checkAccount,

@@ -29,10 +29,26 @@ export const ContactDeatilsContainer = styled.View`
   justify-content: center;
 `;
 
+export const AvatartContainer = styled.View`
+  position: relative;
+  margin-bottom: 10px;
+`;
+
 export const ContactAvatar = styled.Image`
-  height: 100px;
-  width: 100px;
-  border-radius: 50px;
+  height: 130px;
+  width: 130px;
+  border-radius: 65px;
+`;
+
+export const ChangeAvatarButton = styled.TouchableOpacity`
+  padding: 10px;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 2px;
+  bottom: -4px;
 `;
 
 export const ContactInfoContainer = styled.View`

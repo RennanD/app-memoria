@@ -18,6 +18,9 @@ class User {
   @Column()
   name: string;
 
+  @Column()
+  avatar: string;
+
   @Column('time with time zone')
   birthday: Date;
 

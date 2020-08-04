@@ -25,10 +25,10 @@ interface User {
   name: string;
   email: string;
   birthday: string;
+  avatar: string;
 }
 
 interface Account {
-  has_verified: boolean;
   user: User;
 }
 
@@ -41,6 +41,7 @@ interface AuthContextData {
   account: Account;
   signIn(credencials: SingInCredencials): Promise<void>;
   signOut(): Promise<void>;
+  updateAvatar(user: User): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -97,8 +98,22 @@ export const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, [cancelVerify, data]);
 
+  const updateAvatar = useCallback(
+    async (user: User) => {
+      const account = {
+        user,
+      };
+
+      await AsyncStorage.setItem('@memoria:account', JSON.stringify(account));
+      setData({ account, token: data.token });
+    },
+    [data.token],
+  );
+
   return (
-    <AuthContext.Provider value={{ account: data.account, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ account: data.account, signIn, signOut, updateAvatar }}
+    >
       {children}
     </AuthContext.Provider>
   );

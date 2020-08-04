@@ -17,7 +17,14 @@ class ListContactUserService {
       },
     });
 
-    return contacts;
+    const serializaredContacts = contacts.map(contact => ({
+      ...contact,
+      avatar: contact.avatar
+        ? `http://192.168.25.9:3333/files/${contact.avatar}`
+        : '',
+    }));
+
+    return serializaredContacts;
   }
 }
 

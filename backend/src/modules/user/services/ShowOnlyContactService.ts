@@ -30,7 +30,12 @@ class ShowOnlyContactService {
       throw new AppError('Resgistro não encontrado.');
     }
 
-    return contact;
+    return {
+      ...contact,
+      avatar: contact.avatar
+        ? `http://192.168.25.9:3333/files/${contact.avatar}`
+        : '',
+    };
   }
 }
 

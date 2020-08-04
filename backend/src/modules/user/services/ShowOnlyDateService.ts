@@ -46,7 +46,9 @@ class ShowOnlyDateService {
         id: date.contact.id,
         name: date.contact.name,
         phone_number: date.contact.phone_number,
-        avatar: date.contact.avatar,
+        avatar: date.contact.avatar
+          ? `http://192.168.25.9:3333/files/${date.contact.avatar}`
+          : '',
       },
     };
   }

@@ -15,7 +15,6 @@ import {
   HelpText,
   LinkButtonText,
   LinkButton,
-  ProfileImage,
 } from './styles';
 
 import Button from '../../components/Button';
@@ -76,13 +75,6 @@ const Register: React.FC = () => {
 
   return (
     <Container>
-      <ProfileImage
-        source={{
-          uri:
-            'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png',
-        }}
-      />
-
       <Form
         ref={formRef}
         initialData={{ phone_number }}

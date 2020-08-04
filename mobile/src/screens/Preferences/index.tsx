@@ -2,8 +2,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Alert } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
-
 import {
   Container,
   Header,
@@ -42,7 +40,6 @@ const Preferences: React.FC = () => {
     [] as string[],
   );
 
-  const { reset } = useNavigation();
   const { account } = useAuth();
 
   useEffect(() => {
@@ -138,12 +135,8 @@ const Preferences: React.FC = () => {
       );
 
       Alert.alert('Sucesso', response.data.content);
-      reset({
-        routes: [{ name: 'MyPreferences' }],
-        index: 0,
-      });
     }
-  }, [selectItems, account.user.id, reset]);
+  }, [selectItems, account.user.id]);
 
   return (
     <Container>

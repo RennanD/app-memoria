@@ -1,5 +1,8 @@
 /* eslint-disable import/no-duplicates */
 import React, { useState, useEffect, useCallback } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import { Platform, Alert } from 'react-native';
+import * as Permissions from 'expo-permissions';
 
 import { Feather } from '@expo/vector-icons';
 
@@ -13,6 +16,8 @@ import {
   PageTitle,
   ContactDeatilsContainer,
   ContactAvatar,
+  AvatartContainer,
+  ChangeAvatarButton,
   ContactInfoContainer,
   ContactName,
   ContactDescription,
@@ -40,7 +45,7 @@ const Profile: React.FC = () => {
   );
   const [activeItem, setActiveItem] = useState('');
 
-  const { account, signOut } = useAuth();
+  const { account, signOut, updateAvatar } = useAuth();
 
   const handleToggleAccordion = useCallback(
     (name: string) => {
@@ -52,6 +57,51 @@ const Profile: React.FC = () => {
     },
     [activeItem],
   );
+
+  const handleChangeProfilePicture = useCallback(async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+      });
+
+      // eslint-disable-next-line no-undef
+      const dataFile = new FormData();
+
+      dataFile.append('avatar', {
+        uri: result.uri,
+        name: 'picture.jpg',
+        type: 'image/jpeg',
+      });
+
+      console.log(dataFile);
+
+      const response = await api.patch('/users', dataFile);
+
+      console.log(response);
+
+      updateAvatar(response.data);
+    } catch (E) {
+      console.log(E);
+    }
+  }, []);
+
+  useEffect(() => {
+    async function getGalleyPermission() {
+      if (Platform.OS === 'ios') {
+        const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+        if (status !== 'granted') {
+          Alert.alert(
+            'Sorry, we need camera roll permissions to make this work!',
+          );
+        }
+      }
+    }
+
+    getGalleyPermission();
+  }, []);
 
   useEffect(() => {
     async function loadPreferences() {
@@ -72,12 +122,20 @@ const Profile: React.FC = () => {
         </Header>
 
         <ContactDeatilsContainer>
-          <ContactAvatar
-            source={{
-              uri:
-                'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
-            }}
-          />
+          <AvatartContainer>
+            <ContactAvatar
+              source={{
+                uri: account.user.avatar
+                  ? account.user.avatar
+                  : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+              }}
+            />
+
+            <ChangeAvatarButton onPress={handleChangeProfilePicture}>
+              <Feather name="camera" color="#fff" size={20} />
+            </ChangeAvatarButton>
+          </AvatartContainer>
+
           <ContactInfoContainer>
             <ContactName>{account.user.name}</ContactName>
             <ContactDescription>
