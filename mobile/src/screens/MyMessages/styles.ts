@@ -1,6 +1,11 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    paddingBottom: 20,
+  },
+})`
   flex: 1;
   background: #fff;
   padding: 20px;
@@ -28,6 +33,7 @@ export const SectionMessages = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
 })`
   flex: 1;
+  margin-bottom: 20px;
 `;
 
 export const MessageButtom = styled.TouchableOpacity`
@@ -36,7 +42,7 @@ export const MessageButtom = styled.TouchableOpacity`
   height: 150px;
   width: 200px;
   border: 1px solid #ddd;
-  padding: 10px;
+  padding: 5px;
   align-items: center;
   margin-right: 10px;
 `;
@@ -49,6 +55,7 @@ export const TextMessageContent = styled.Text`
 export const ImageMessageContent = styled.Image`
   height: 100%;
   width: 100%;
+  border-radius: 4px;
 `;
 
 export const EmptyView = styled.View`

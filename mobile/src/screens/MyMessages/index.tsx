@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -9,22 +9,30 @@ import {
   SectionTitle,
   SectionMessages,
   MessageButtom,
-  TextMessageContent,
   ImageMessageContent,
   EmptyView,
   EmptyViewText,
 } from './styles';
 
+import MessageModal from './MessageModal';
+
 import api from '../../services/api';
 
 interface Message {
   id: string;
-  message_type: 'file' | 'text';
+  message_type: string;
   message_content: string;
 }
 
+interface MessagesData {
+  message_type: string;
+  messages: Message[];
+}
+
 const MyMessages: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([] as Message[]);
+  const [messages, setMessages] = useState<MessagesData[]>([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState('');
 
   useEffect(() => {
     async function loadMessages() {
@@ -36,14 +44,16 @@ const MyMessages: React.FC = () => {
     loadMessages();
   }, []);
 
-  const textMessages = useMemo(
-    () => messages.filter(message => message.message_type === 'text'),
-    [messages],
-  );
+  const handlToggleModal = useCallback(() => {
+    setIsVisible(state => !state);
+  }, []);
 
-  const fileMessages = useMemo(
-    () => messages.filter(message => message.message_type === 'file'),
-    [messages],
+  const handleShowMessage = useCallback(
+    (image_uri: string) => {
+      handlToggleModal();
+      setSelectedImage(image_uri);
+    },
+    [handlToggleModal],
   );
 
   return (
@@ -53,77 +63,54 @@ const MyMessages: React.FC = () => {
         <PageTitle numberOfLines={4}>Minhas mensagens</PageTitle>
       </Header>
 
-      <SectionTitle>Mensagens de texto</SectionTitle>
-      {textMessages.length ? (
-        <SectionMessages>
-          {textMessages.map(textMessage => (
-            <MessageButtom
-              key={textMessage.id}
-              style={{
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 1.41,
+      {messages.map(message => (
+        <>
+          <SectionTitle key={message.message_type}>
+            {`Mensagens de ${message.message_type}`}
+          </SectionTitle>
+          {message.messages.length ? (
+            <SectionMessages>
+              {message.messages.map(newMessage => (
+                <MessageButtom
+                  onPress={() => handleShowMessage(newMessage.message_content)}
+                  key={newMessage.id}
+                  style={{
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 1.41,
 
-                elevation: 2,
-              }}
-            >
-              <TextMessageContent numberOfLines={6}>
-                {textMessage.message_content}
-              </TextMessageContent>
-            </MessageButtom>
-          ))}
-        </SectionMessages>
-      ) : (
-        <EmptyView>
-          <MaterialCommunityIcons
-            name="alert-circle-outline"
-            color="#ddd"
-            size={40}
-          />
-          <EmptyViewText>Não há mesnsages de texto cadastradas.</EmptyViewText>
-        </EmptyView>
-      )}
-
-      <SectionTitle>Mensagens com imagens</SectionTitle>
-      {fileMessages.length ? (
-        <SectionMessages>
-          {fileMessages.map(fileMessage => (
-            <MessageButtom
-              key={fileMessage.id}
-              style={{
-                shadowColor: '#000',
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 1.41,
-
-                elevation: 2,
-              }}
-            >
-              <ImageMessageContent
-                source={{ uri: fileMessage.message_content }}
+                    elevation: 2,
+                  }}
+                >
+                  <ImageMessageContent
+                    source={{ uri: newMessage.message_content }}
+                  />
+                </MessageButtom>
+              ))}
+            </SectionMessages>
+          ) : (
+            <EmptyView>
+              <MaterialCommunityIcons
+                name="alert-circle-outline"
+                color="#ddd"
+                size={40}
               />
-            </MessageButtom>
-          ))}
-        </SectionMessages>
-      ) : (
-        <EmptyView>
-          <MaterialCommunityIcons
-            name="alert-circle-outline"
-            color="#ddd"
-            size={40}
-          />
-          <EmptyViewText>
-            Não há mesnsages com images cadastradas.
-          </EmptyViewText>
-        </EmptyView>
-      )}
+              <EmptyViewText>
+                Não há mesnsages de texto cadastradas.
+              </EmptyViewText>
+            </EmptyView>
+          )}
+        </>
+      ))}
+      <MessageModal
+        isVisible={isVisible}
+        uri={selectedImage}
+        onPress={handlToggleModal}
+      />
     </Container>
   );
 };

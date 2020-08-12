@@ -1,9 +1,9 @@
 import { getRepository } from 'typeorm';
 
-import Message from '../models/Message';
+import Message from '../../user/models/Message';
 
 interface Request {
-  message_type: 'text' | 'file';
+  message_type: string;
   message_content: string;
 }
 

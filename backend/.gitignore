@@ -4,3 +4,6 @@ node_modules
 ormconfi.json
 tmp/*
 !tmp/.gitkeep
+!tmp/messages
+tmp/messages/*
+!tmp/messages/.gitkeep

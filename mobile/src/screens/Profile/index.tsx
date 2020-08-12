@@ -82,7 +82,7 @@ const Profile: React.FC = () => {
     } catch (E) {
       console.log(E);
     }
-  }, []);
+  }, [updateAvatar]);
 
   useEffect(() => {
     async function getGalleyPermission() {

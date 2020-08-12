@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { useRoute } from '@react-navigation/native';
 
-// import { Feather } from '@expo/vector-icons';
-
 import { format, parseISO } from 'date-fns';
 import {
   Container,
@@ -55,7 +53,6 @@ const ContactDetail: React.FC = () => {
   const [activeItem, setActiveItem] = useState('');
 
   const { params } = useRoute<RouteProps>();
-  // const { navigate } = useNavigation();
 
   useEffect(() => {
     async function loadContatc() {
@@ -85,11 +82,6 @@ const ContactDetail: React.FC = () => {
     },
     [activeItem],
   );
-
-  // const handleAddPreference = useCallback(() => {
-  //   navigate('ContactsPreferences', { contact_id: contact.id });
-  // }, [contact.id, navigate]);
-
   useEffect(() => {
     async function loadPreferences() {
       const response = await api.get(`/preferences/person/${contact.id}`);

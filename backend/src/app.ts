@@ -24,6 +24,10 @@ app.use('/admin', adminRoutes);
 app.use(appErrors);
 
 app.use('/files', express.static(resolve(__dirname, '..', 'tmp')));
+app.use(
+  '/files/messages',
+  express.static(resolve(__dirname, '..', 'tmp', 'messages')),
+);
 
 cron.schedule('9 19 * * *', async () => {
   console.log('hora da verdade');
