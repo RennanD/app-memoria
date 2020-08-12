@@ -3,26 +3,34 @@ import { getRepository } from 'typeorm';
 import Contact from '../models/Contact';
 
 interface Request {
-  user_id: string;
+  owner_id: string;
 }
 
 class ListContactUserService {
-  public async execute({ user_id }: Request): Promise<Contact[]> {
+  public async execute({ owner_id }: Request): Promise<Contact[]> {
     const contactRepository = getRepository(Contact);
 
     const contacts = await contactRepository.find({
       where: {
-        user_id,
+        owner_id,
         deleted_at: null,
       },
     });
 
-    const serializaredContacts = contacts.map(contact => ({
-      ...contact,
-      avatar: contact.avatar
-        ? `http://192.168.25.9:3333/files/${contact.avatar}`
-        : '',
-    }));
+    const serializaredContacts = contacts.map(contact => {
+      // eslint-disable-next-line no-param-reassign
+      delete contact.user.password;
+
+      return {
+        ...contact,
+        user: {
+          ...contact.user,
+          avatar: contact.user.avatar
+            ? `http://10.0.0.100:3333/files/${contact.user.avatar}`
+            : 'https://siac.ufrj.br/wp-content/uploads/2020/02/Profile_avatar_placeholder_large.png',
+        },
+      };
+    });
 
     return serializaredContacts;
   }

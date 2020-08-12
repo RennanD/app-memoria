@@ -1,37 +1,39 @@
 import { getRepository } from 'typeorm';
 
 import Contact from '../models/Contact';
+import Account from '../models/Account';
 
 import AppError from '../../../errors/AppError';
 
 interface Request {
-  user_id: string;
-  name: string;
+  owner_id: string;
   phone_number: string;
-  avatar?: string;
   relationship: string;
 }
 
 class CreateContactService {
   public async execute({
-    user_id,
+    owner_id,
     phone_number,
-    ...rest
+    relationship,
   }: Request): Promise<Contact> {
+    const accountRespository = getRepository(Account);
     const contactRespository = getRepository(Contact);
 
-    const contactExists = await contactRespository.findOne({
+    const checkAccount = await accountRespository.findOne({
       where: { phone_number },
     });
 
-    if (contactExists) {
-      throw new AppError('Este contato já foi adicionado');
+    if (!checkAccount) {
+      throw new AppError(
+        'Este contato ainda não é usuário, covinde-o para poder adicionar à sua lista de contatos',
+      );
     }
 
     const contact = contactRespository.create({
-      user_id,
-      phone_number,
-      ...rest,
+      user_id: checkAccount.user.id,
+      owner_id,
+      relationship,
     });
 
     await contactRespository.save(contact);

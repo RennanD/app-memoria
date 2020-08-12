@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import { useRoute, useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
-import { Feather } from '@expo/vector-icons';
+// import { Feather } from '@expo/vector-icons';
 
+import { format, parseISO } from 'date-fns';
 import {
   Container,
   Header,
@@ -15,7 +16,6 @@ import {
   ContactDescription,
   PreferencesAccordionList,
   SectionTitle,
-  FloatButton,
 } from './styles';
 
 import PreferencesAccordion from '../../components/PreferencesAccordion';
@@ -27,7 +27,9 @@ import api from '../../services/api';
 interface Contact {
   id: string;
   name: string;
-  phone_number: string;
+  email: string;
+  birthday: Date;
+  formattedBirthday: string;
   avatar: string;
   relationship: string;
 }
@@ -53,13 +55,21 @@ const ContactDetail: React.FC = () => {
   const [activeItem, setActiveItem] = useState('');
 
   const { params } = useRoute<RouteProps>();
-  const { navigate } = useNavigation();
+  // const { navigate } = useNavigation();
 
   useEffect(() => {
     async function loadContatc() {
       const response = await api.get(`/contacts/${params.contact_id}`);
 
-      setContact(response.data);
+      const data = {
+        ...response.data,
+        formattedBirthday: format(
+          parseISO(response.data.birthday),
+          "dd'/'MM'/'yyyy",
+        ),
+      };
+
+      setContact(data);
     }
 
     loadContatc();
@@ -76,9 +86,9 @@ const ContactDetail: React.FC = () => {
     [activeItem],
   );
 
-  const handleAddPreference = useCallback(() => {
-    navigate('ContactsPreferences', { contact_id: contact.id });
-  }, [contact.id, navigate]);
+  // const handleAddPreference = useCallback(() => {
+  //   navigate('ContactsPreferences', { contact_id: contact.id });
+  // }, [contact.id, navigate]);
 
   useEffect(() => {
     async function loadPreferences() {
@@ -89,6 +99,10 @@ const ContactDetail: React.FC = () => {
 
     loadPreferences();
   }, [contact.id]);
+
+  if (!contact) {
+    return <Container />;
+  }
 
   return (
     <>
@@ -109,10 +123,10 @@ const ContactDetail: React.FC = () => {
           <ContactInfoContainer>
             <ContactName>{contact.name}</ContactName>
             <ContactDescription>
-              {`Telefone: ${contact.phone_number}`}
+              {`Relacionamento:  ${contact.relationship}`}
             </ContactDescription>
             <ContactDescription>
-              {`Relacionamento:  ${contact.relationship}`}
+              {`Data de anviversário:  ${contact.formattedBirthday}`}
             </ContactDescription>
           </ContactInfoContainer>
         </ContactDeatilsContainer>
@@ -131,9 +145,6 @@ const ContactDetail: React.FC = () => {
           ))}
         </PreferencesAccordionList>
       </Container>
-      <FloatButton onPress={handleAddPreference}>
-        <Feather name="plus" color="#fff" size={24} />
-      </FloatButton>
     </>
   );
 };

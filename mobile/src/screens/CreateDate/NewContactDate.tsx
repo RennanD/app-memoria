@@ -54,10 +54,12 @@ const NewContactDate: React.FC = () => {
     setLoading(true);
     const { date, description, name, phone_number, relationship } = data;
 
+    const formatted_phone = `+55${phone_number.replace(/\s/g, '')}`;
+
     try {
       const contactResponse = await api.post('/contacts', {
         name,
-        phone_number,
+        phone_number: formatted_phone,
         relationship,
       });
 
@@ -71,8 +73,8 @@ const NewContactDate: React.FC = () => {
 
       Alert.alert('Sucesso', 'Evento cadastrado com sucesso');
       setLoading(false);
-    } catch (error) {
-      Alert.alert('Erro', 'Não foi possível criar o evento.');
+    } catch ({ response }) {
+      Alert.alert('Erro', response.data.error);
       setLoading(false);
     }
   }, []);
@@ -81,18 +83,15 @@ const NewContactDate: React.FC = () => {
     <Container>
       <FormContainer>
         <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input
-            name="name"
-            icon="account"
-            placeholder="Nome do contato"
-            borderColor="#ddd"
-          />
           <MaskedInput
             name="phone_number"
             icon="cellphone-iphone"
             borderColor="#ddd"
             placeholder="Telefone"
-            type="cel-phone"
+            type="custom"
+            options={{
+              mask: '99 9 9999 9999',
+            }}
           />
           <PickerInput
             borderColor="#ddd"

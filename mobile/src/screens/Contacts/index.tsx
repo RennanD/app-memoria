@@ -18,10 +18,11 @@ import { Contacts as ContactsIcon } from '../../assets';
 
 import api from '../../services/api';
 
+import { User } from '../../hooks/useAuth';
+
 interface Contact {
   id: string;
-  name: string;
-  avatar: string;
+  user: User;
 }
 
 const Contacts: React.FC = () => {
@@ -65,14 +66,8 @@ const Contacts: React.FC = () => {
           keyExtractor={contact => contact.id}
           renderItem={({ item: contact }) => (
             <ContactCard onPress={() => handleShowContact(contact.id)}>
-              <ContactAvatar
-                source={{
-                  uri: contact.avatar
-                    ? contact.avatar
-                    : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
-                }}
-              />
-              <ContactName>{contact.name}</ContactName>
+              <ContactAvatar source={{ uri: contact.user.avatar }} />
+              <ContactName>{contact.user.name}</ContactName>
             </ContactCard>
           )}
         />

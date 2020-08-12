@@ -19,10 +19,10 @@ contactsRouter.use(ensureAuthenticated);
 contactsRouter.get('/', async (request, response) => {
   const listContacts = new ListContactUserService();
 
-  const user_id = request.user.id;
+  const owner_id = request.user.id;
 
   const contacts = await listContacts.execute({
-    user_id,
+    owner_id,
   });
 
   return response.json(contacts);
@@ -43,15 +43,14 @@ contactsRouter.get('/:contact_id', async (request, response) => {
 contactsRouter.post('/', async (request, response) => {
   const createContact = new CreateContactService();
 
-  const user_id = request.user.id;
+  const owner_id = request.user.id;
 
-  const { phone_number, name, ...rest } = request.body;
+  const { phone_number, relationship } = request.body;
 
   const contact = await createContact.execute({
-    user_id,
-    name,
+    owner_id,
     phone_number,
-    ...rest,
+    relationship,
   });
 
   return response.json(contact);

@@ -6,6 +6,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 
 import User from './User';
@@ -16,23 +17,25 @@ class Contact {
   id: string;
 
   @Column()
-  user_id: string;
+  owner_id: string;
 
   @ManyToOne(() => User, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
+
+  @Column()
+  user_id: string;
+
+  @OneToOne(() => User, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    eager: true,
+  })
   @JoinColumn({ name: 'user_id' })
   user: User;
-
-  @Column()
-  name: string;
-
-  @Column()
-  phone_number: string;
-
-  @Column()
-  avatar: string;
 
   @Column()
   relationship: string;

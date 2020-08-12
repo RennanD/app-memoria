@@ -43,9 +43,7 @@ const Register: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
-  const phoneRef = useRef<TextInput>(null);
   const cpfRef = useRef<TextInput>(null);
-  const genderRef = useRef<TextInput>(null);
   const addressRef = useRef<TextInput>(null);
 
   const handleSubmit = useCallback(
@@ -87,7 +85,7 @@ const Register: React.FC = () => {
           placeholder="Nome completo"
           name="name"
           returnKeyType="next"
-          onSubmitEditing={() => passwordRef.current?.focus()}
+          onSubmitEditing={() => emailRef.current?.focus()}
         />
 
         <Input
@@ -109,11 +107,9 @@ const Register: React.FC = () => {
           secureTextEntry
           name="password"
           returnKeyType="next"
-          onSubmitEditing={() => phoneRef.current?.focus()}
         />
 
         <MaskedInput
-          ref={phoneRef}
           icon="cellphone-iphone"
           placeholder="Telefone"
           editable={false}
@@ -133,7 +129,6 @@ const Register: React.FC = () => {
           name="cpf"
           returnKeyType="next"
           type="cpf"
-          onSubmitEditing={() => genderRef.current?.focus()}
         />
 
         <DatePickerInput name="birthday" placeholder="Data de nascimento" />

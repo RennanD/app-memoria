@@ -76,11 +76,7 @@ const Profile: React.FC = () => {
         type: 'image/jpeg',
       });
 
-      console.log(dataFile);
-
       const response = await api.patch('/users', dataFile);
-
-      console.log(response);
 
       updateAvatar(response.data);
     } catch (E) {
@@ -125,9 +121,7 @@ const Profile: React.FC = () => {
           <AvatartContainer>
             <ContactAvatar
               source={{
-                uri: account.user.avatar
-                  ? account.user.avatar
-                  : 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png',
+                uri: account.user.avatar,
               }}
             />
 

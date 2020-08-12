@@ -17,7 +17,6 @@ interface Response {
   contact: {
     id: string;
     name: string;
-    phone_number: string;
     avatar?: string;
   };
 }
@@ -44,11 +43,10 @@ class ShowOnlyDateService {
       updated_at: date.updated_at,
       contact: {
         id: date.contact.id,
-        name: date.contact.name,
-        phone_number: date.contact.phone_number,
-        avatar: date.contact.avatar
-          ? `http://192.168.25.9:3333/files/${date.contact.avatar}`
-          : '',
+        name: date.contact.user.name,
+        avatar: date.contact.user.avatar
+          ? `http://10.0.0.100:3333/files/${date.contact.user.avatar}`
+          : 'https://siac.ufrj.br/wp-content/uploads/2020/02/Profile_avatar_placeholder_large.png',
       },
     };
   }

@@ -11,7 +11,6 @@ interface Request {
 interface Response {
   id: string;
   name: string;
-  phone_number: string;
   avatar?: string;
   relationship: string;
 }
@@ -30,11 +29,14 @@ class ShowOnlyContactService {
       throw new AppError('Resgistro não encontrado.');
     }
 
+    delete contact.user.password;
+
     return {
-      ...contact,
-      avatar: contact.avatar
-        ? `http://192.168.25.9:3333/files/${contact.avatar}`
-        : '',
+      ...contact.user,
+      avatar: contact.user.avatar
+        ? `http://10.0.0.100:3333/files/${contact.user.avatar}`
+        : 'https://siac.ufrj.br/wp-content/uploads/2020/02/Profile_avatar_placeholder_large.png',
+      relationship: contact.relationship,
     };
   }
 }

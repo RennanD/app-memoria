@@ -25,7 +25,9 @@ interface ContactItem {
 }
 
 interface Contatc {
-  name: string;
+  user: {
+    name: string;
+  };
   id: string;
 }
 
@@ -40,7 +42,7 @@ const WithContactDate: React.FC = () => {
       const response = await api.get('/contacts');
 
       const data = response.data.map((contact: Contatc) => ({
-        label: contact.name,
+        label: contact.user.name,
         value: contact.id,
       }));
 

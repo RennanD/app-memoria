@@ -30,6 +30,7 @@ export const ContactCard = styled.TouchableOpacity`
 export const ContactAvatar = styled.Image`
   height: 50px;
   width: 50px;
+  background: #eee;
   border-radius: 25px;
 `;
 
