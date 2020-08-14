@@ -4,6 +4,7 @@ import express from 'express';
 import 'express-async-errors';
 import cron from 'node-cron';
 import { resolve } from 'path';
+import cors from 'cors';
 
 import './database';
 import './database/mongoConnect';
@@ -18,6 +19,7 @@ import adminRoutes from './modules/admin/routes';
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 app.use(userRoutes);
 app.use('/admin', adminRoutes);
 

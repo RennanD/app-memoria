@@ -74,7 +74,9 @@ const NewContactDate: React.FC = () => {
       Alert.alert('Sucesso', 'Evento cadastrado com sucesso');
       setLoading(false);
     } catch ({ response }) {
-      Alert.alert('Erro', response.data.error);
+      console.log(response);
+
+      Alert.alert('Erro', response.data.message);
       setLoading(false);
     }
   }, []);
