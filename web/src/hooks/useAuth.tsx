@@ -48,6 +48,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     const account = localStorage.getItem('@memoria:account');
 
     if (token && account) {
+      api.defaults.headers.authorization = `Bearer ${token}`;
       return { token, account: JSON.parse(account) };
     }
 
@@ -55,14 +56,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   });
 
   const { cancelVerify } = useVerification();
-
-  useEffect(() => {
-    const token = localStorage.getItem('@memoria:token');
-
-    if (token) {
-      api.defaults.headers.authorization = `Bearer ${token}`;
-    }
-  }, []);
 
   const signIn = useCallback(async ({ email, password }) => {
     try {
