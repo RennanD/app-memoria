@@ -15,7 +15,7 @@ class ListMessagesSerive {
 
     const serialiazedMessages = messages.map(message => ({
       ...message,
-      message_content: `http://10.0.0.100:3333/files/messages/${message.message_content}`,
+      message_content: `http://10.0.0.102:3333/files/messages/${message.message_content}`,
     }));
 
     const reducedTypes = serialiazedMessages.filter(

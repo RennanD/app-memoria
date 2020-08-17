@@ -45,7 +45,7 @@ class ShowOnlyDateService {
         id: date.contact.id,
         name: date.contact.user.name,
         avatar: date.contact.user.avatar
-          ? `http://10.0.0.100:3333/files/${date.contact.user.avatar}`
+          ? `http://10.0.0.102:3333/files/${date.contact.user.avatar}`
           : 'https://siac.ufrj.br/wp-content/uploads/2020/02/Profile_avatar_placeholder_large.png',
       },
     };

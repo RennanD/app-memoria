@@ -7,6 +7,7 @@ import Request from '../pages/Request';
 import VerifyCode from '../pages/VerifyCode';
 import Login from '../pages/Login';
 import Preferences from '../pages/Preferences';
+import Messages from '../pages/Messages';
 
 const Routes: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const Routes: React.FC = () => {
         <Route path="/login" component={Login} />
 
         <Route path="/dashboard" isPrivate component={Preferences} />
+        <Route path="/messages" isPrivate component={Messages} />
       </Switch>
     </BrowserRouter>
   );

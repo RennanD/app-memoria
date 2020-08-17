@@ -67,7 +67,7 @@ class AuthenticateUserService {
     });
 
     checkAccount.user.avatar = checkAccount.user.avatar
-      ? `http://10.0.0.100:3333/files/${checkAccount.user.avatar}`
+      ? `http://10.0.0.102:3333/files/${checkAccount.user.avatar}`
       : 'https://siac.ufrj.br/wp-content/uploads/2020/02/Profile_avatar_placeholder_large.png';
 
     return {
